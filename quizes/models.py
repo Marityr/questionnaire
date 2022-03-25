@@ -21,8 +21,8 @@ class Quiz(models.Model):
         return f"{self.name}-{self.topic}"
 
     def get_questions(self):
-        return self.qestion_set.all()
+        return self.question_set.all()
 
     class Meta:
-        verbose_name = 'Опос'
+        verbose_name = 'Опрос'
         verbose_name_plural = 'Опросы'

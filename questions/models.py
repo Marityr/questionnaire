@@ -5,6 +5,7 @@ from quizes.models import Quiz
 class Question(models.Model):
     """Вопросы"""
 
+    # TODO легенду и поле сортировки
     text = models.CharField(max_length=200)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
@@ -12,7 +13,7 @@ class Question(models.Model):
     def __str__(self) -> str:
         return str(self.text)
 
-    def answers(self):
+    def get_answers(self):
         return self.answer_set.all()
 
     class Meta:
@@ -22,13 +23,14 @@ class Question(models.Model):
 class Answer(models.Model):
     """Ответы"""
 
+    # TODO добавить тултипы
     text = models.CharField(max_length=200)
-    correct = models.BooleanField(default=False)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
+    correct = models.PositiveIntegerField(default=0)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"вопрос: {self.question.text}, ответ: {self.text}, правильный: {self.correct}"
+        return f"ID - {self.id} | вопрос: {self.question.text}, вариант: {self.text}"
 
     class Meta:
         verbose_name = 'Ответы'
