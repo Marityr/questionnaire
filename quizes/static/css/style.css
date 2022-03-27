@@ -36,25 +36,37 @@ button {
 
 .form-block-step {
     width: 100%;
-    height: 50px;
-    border-bottom: 1px solid #ddd;
+    border: 2px solid #fff;
+    padding-left: 15px;
+    background: #198754;
+    border-radius: 10px;
+    color: #fff;
 }
 
 .form-block-step input {
     display: inline-block;
     position: relative;
-    float: right;
     padding-left: 18px;
-    height: 34px;
-    width: 50px;
+    height: 36px;
+    width: 44px;
+    border-radius: 5px;
+    border: none;
+    right: -10px;
+    vertical-align: middle;
 }
 
 .form-block-step label {
     position: relative;
-    top: 10px;
+    display: inline-block;
+    width: 90%;
+    vertical-align: middle;
 }
 
-#body-form {
+form {
+    display: none;
+}
+
+.result {
     display: none;
 }
 

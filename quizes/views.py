@@ -1,22 +1,33 @@
 from urllib import request
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Quiz
 from django.views.generic import ListView
 from django.views import View
 from questions.models import Question, Answer
 
 
-class QuizListView(ListView):
-    
-    model = Quiz
-    template_name = 'webpage/index.html'
+class QuizListView(View):
+
+    def get(self, request) -> render:
+        template_name = 'webpage/index.html'
+
+        return render(request, template_name)
+
+    def post(self, request) -> JsonResponse:
+        if request.is_ajax():
+            data = request.POST
+            # data_.pop('csrfmiddlewaretoken')
+            # data_.pop('button')
+            print(data['name'])
+
+        return redirect('quiz-view', '121341324')
 
 
 class QuizView(View):
 
-    def get(self, request, pk):
-        quiz = Quiz.objects.get(pk=pk)
+    def get(self, request):
+        quiz = Quiz.objects.get(pk=1)
         quizes = []
         questions = []
         for q in quiz.get_questions():
@@ -28,7 +39,7 @@ class QuizView(View):
                 tmp.append(a.id)
                 answers.append(tmp)
             questions.append(answers)
-        print(questions)
+
         context = {
             'obj': quiz,
             'quizes': quizes,
@@ -37,54 +48,45 @@ class QuizView(View):
         return render(request, 'webpage/quiz.html', context)
 
     def post(self, request, pk):
+        if request.is_ajax():
+            data_ = request.POST
+            data_.pop('csrfmiddlewaretoken')
+            data_.pop('button')
+            print(request.POST)
 
         return JsonResponse({'text': 'works'})
 
-    
-# def quiz_view(request, pk):
-#     quiz = Quiz.objects.get(pk=pk)
-#     return render(request, 'webpage/quiz.html', {'obj': quiz})
+    def userdata() -> dict():
+
+        context = {}
+        return context
 
 
-# def quiz_data_view(request, pk):
-#     quiz = Quiz.objects.get(pk=1)
-#     questions = []
-#     for q in quiz.get_questions():
-#         answers = []
-#         for a in q.get_answers():
-#             tmp = []
-#             tmp.append(a.pk)
-#             tmp.append(a.text)
-#             answers.append(tmp)
-#         questions.append({str(q): answers})
+def save_quiz_view(request, pk):
+    print('test')
+    if request.is_ajax():
+        answers_id = []
+        answers_val = []
+        data = request.POST
+        data_ = dict(data.lists())
 
-#     return JsonResponse({
-#         'data': questions,
-#         'time': quiz.time,
-#     })
+        data_.pop('csrfmiddlewaretoken')
+        data_.pop('button')
+        # data_.pop('IDuser')
 
-# def save_quiz_view(request, pk):
+        for k in data_.keys():
+            print('key: ', k)
+            answers_id.append(k)
 
-#     if request.is_ajax():
-#         answers_id = []
-#         answers_val = []
-#         data = request.POST
-#         data_ = dict(data.lists())
+        summ = 0
+        for v in data_.values():
+            summ = summ + int(v[0])
+            answers_val.append(v[0])
 
-#         data_.pop('csrfmiddlewaretoken')
-#         data_.pop('IDuser')
+        dictionary = dict(zip(answers_id, answers_val))
 
-#         for k in data_.keys():
-#             print('key: ', k)            
-#             answers_id.append(k)
-
-#         summ = 0
-#         for v in data_.values():
-#             summ = summ + int(v[0])
-#             answers_val.append(v[0])
-
-#         dictionary = dict(zip(answers_id, answers_val))
-
-#         print(dictionary)
-#         print(summ)
-#     return JsonResponse({'text': 'works'})
+        # print(dictionary)
+        dtr = dictionary.copy()
+        dtr.update(dictionary)
+        print(dtr)
+    return JsonResponse({'text': 'works'})

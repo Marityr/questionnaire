@@ -9,6 +9,8 @@ const bodyFormInput = document.getElementById('body-form-input')
 
 const startQuiz = document.getElementById('activate-test')
 
+const url = document.location.href
+
 
 startQuiz.addEventListener('click', () => {
     bodyBlock.innerHTML = `
@@ -20,10 +22,10 @@ startQuiz.addEventListener('click', () => {
     <input class="form-control form-control-lg" type="text" placeholder="Имя" name="name">
     <input class="form-control form-control-lg" type="email" placeholder="Email" name="emil">
     <select class="form-select" aria-label="Default select example" name="male">
-        <option selected>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option selected>choose your gender</option>
+        <option value="man">Man</option>
+        <option value="woman">Woman</option>
+        <option value="other">Other</option>
     </select>
     <button type="submit" class="btn btn-lg w-100 btn-primary" name="button" id="step-1">Далее</button>
     `  
@@ -47,11 +49,11 @@ const sendData = () => {
         }
     })
 
-    console.log(data)
+    console.log(url)
 
     $.ajax({
         type: 'POST',
-        url: `data`,
+        url: ``,
         data: data,
         success: function (response) {
             console.log(response)

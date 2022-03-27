@@ -1,12 +1,24 @@
+from tabnanny import verbose
 from django.db import models
 from quizes.models import Quiz
+
+import uuid
+
+
+MALE_CHOICES = (
+    ('all', 'all'),
+    ('man', 'man'),
+    ('woman', 'woman'),
+)
 
 
 class Question(models.Model):
     """Вопросы"""
 
-    # TODO легенду и поле сортировки
     text = models.CharField(max_length=200)
+    male = models.CharField(max_length=6, choices=MALE_CHOICES, default=all, blank=True, null=True)
+    step = models.IntegerField(verbose_name='Позиция в опросе', blank=True, null=True, default=0)
+    legend = models.TextField(verbose_name='Легенда вопроса', blank=True, null=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -23,9 +35,10 @@ class Question(models.Model):
 class Answer(models.Model):
     """Ответы"""
 
-    # TODO добавить тултипы
     text = models.CharField(max_length=200)
-    correct = models.PositiveIntegerField(default=0)
+    tultype = models.TextField(verbose_name='Подсказка к ответу', blank=True, null=True)
+    min_bal = models.IntegerField(verbose_name='Минимальное значение ответа', default=0)
+    max_bal = models.IntegerField(verbose_name='Максимальное значение ответа')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -35,3 +48,28 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответы'
         verbose_name_plural = 'Ответы'
+
+
+class ResultAnswers(models.Model):
+    """Результаты ответа для статистики"""
+
+    def random_number():
+        import random
+        rand = random.randrange(1000, 10001, 1)
+        return rand
+
+    userID = models.UUIDField(verbose_name='Идентификатор', primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(verbose_name='Имя пользователя', max_length=10)
+    male = models.CharField(verbose_name='Пол пользователя', max_length=10)
+    email = models.CharField(verbose_name='Email пользователя', max_length=10, null=True)
+    questuins = models.TextField(verbose_name='Пройденые ответы')
+    answers = models.TextField(verbose_name='Ответы пользователя')
+    result_bal = models.CharField(verbose_name='Результат для подсчета', max_length=10)
+
+    def __str__(self) -> str:
+        return f"{self.userID} - {self.male} - {self.result_bal}"
+
+    class Meta:
+        verbose_name = 'Результат ответов'
+        verbose_name_plural = 'Результаты ответов'
+
