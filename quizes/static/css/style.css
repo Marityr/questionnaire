@@ -1,9 +1,10 @@
 body {
-    background: url(../img/bg.jpeg);
+    /* background: url(../img/bg.jpeg); */
     background-position: right bottom;
     background-attachment:fixed;
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: #f5f5dc;
 }
 
 .btn-outline-info {
@@ -73,3 +74,32 @@ form {
 .form-active {
     display: block!important;
 }
+
+.form-block-step p {
+    margin: 0;
+}
+
+#button-block h4{
+    padding: 5px;
+    padding: 5px 10px;
+    background: #ddd;
+}
+
+#button-block > h4 >span{
+    float: right;
+}
+
+.low {
+    background: #198754!important;
+    color: #fff;
+}
+
+.medium {
+    background: rgb(255, 255, 0)!important;
+}
+
+.hard {
+    background: red!important;
+}
+
+

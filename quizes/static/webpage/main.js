@@ -20,7 +20,7 @@ startQuiz.addEventListener('click', () => {
     `  
     bodyFormInput.innerHTML = `
     <input class="form-control form-control-lg" type="text" placeholder="Имя" name="name">
-    <input class="form-control form-control-lg" type="email" placeholder="Email" name="emil">
+    <input class="form-control form-control-lg" type="email" placeholder="Email" name="email">
     <select class="form-select" aria-label="Default select example" name="male">
         <option selected>choose your gender</option>
         <option value="man">Man</option>
@@ -56,7 +56,9 @@ const sendData = () => {
         url: ``,
         data: data,
         success: function (response) {
-            console.log(response)
+            uid = response
+            console.log(uid['uid'])
+            window.location.replace(`${url}${uid['uid']}`);
         },
         error: function (error) {
             console.log(error)

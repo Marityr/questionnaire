@@ -24,23 +24,37 @@
         <div id="body-block"></div>
         {% for item in data %}
             <form id="body-form-{{ forloop.counter }}" class="step-{{ forloop.counter }} {% if forloop.counter == 1 %}form-active{% endif %}"
-                  step="{{ forloop.counter }}">
+                  step="{{ forloop.counter }}" style="display: none1!important;">
                 {% csrf_token %}
                 {% for obj in item %}
-                    {% if forloop.counter == 1 %}<h2>{{ obj }}</h2>{% endif %}
-                    {% if forloop.counter != 1 %}
+                    {% if forloop.counter == 1 %}
+                    <h2>{{ obj }}</h2>
+                    <input type="hidden" name='questions' value="{{ obj }}">
+                    {% endif %}
+                    {% if forloop.counter == 2 %}
+                    <p>{{ obj }}</p>
+                    {% endif %}
+                    {% if forloop.counter != 1 and forloop.counter != 2 %}
                         <div class="form-block-step">
                             {% for data in obj %}
-                                {% if forloop.counter == 1 %}<label for="{forloop.counter}">{{ data }}</label>{% endif %}
-                                {% if forloop.counter == 2 %}
+                                {% if forloop.counter == 1 %}<label for="{forloop.counter}">{{ data }}{% endif %}
+                                {% if forloop.counter == 2 %}<p>{{ data }}</p></label>{% endif %}
+                                {% if forloop.counter == 3 %}
                                     <input type="number"
                                            class="answer"
                                            id=""
                                            name="{{ data }}"
-                                           value="1"
                                            autocomplete="off"
-                                           required>
                                 {% endif %}
+                                {% if forloop.counter == 4 %}
+                                        value="{{ data }}"
+                                        min="{{ data }}"
+                                {% endif %}
+                                {% if forloop.counter == 5 %}
+                                        max="{{ data }}"
+                                        required>
+                                {% endif %}
+                                
                             {% endfor %}
                         </div>
                     {% endif %}
@@ -90,8 +104,8 @@
                             $('.step-' + step + '').removeClass('form-active');
                             $('.step-' + (step + 1) + '').addClass('form-active');
                             // console.log(progress)
-                            $('.progress-bar').attr('style', 'width: ' + (progress + 10) + '%');
-                            $('.progress-bar').attr('aria-valuenow', (progress + 10));
+                            $('.progress-bar').attr('style', 'width: ' + (progress + 8) + '%');
+                            $('.progress-bar').attr('aria-valuenow', (progress + 8));
                             // console.log(step)
                         }
                     })
@@ -114,19 +128,533 @@
             </script>
             {% if forloop.last %}
             <div class="result">
-                Результаты
+                <h2>RESULT</h2>
             </div>
             <script>
                 var step = Number({{ forloop.counter }});
                 $('.result').addClass('step-'+ (step +1))
                 function result(){
-                    alert('alert')
+                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+                    const datat = {}
+                    const resultBlock = document.getElementById('button-block')
+                    datat['csrfmiddlewaretoken'] = csrf[0].value
+                    $.ajax({
+                        type: 'POST',
+                        url: `result/`,
+                        data: datat,
+                        success: function (response) {
+                            console.log(response.result)
+                            data = response.result
+                            data.forEach(function(array_item, index) {
+                                resultBlock.innerHTML += `
+                                    <h4 class="color" id="res${index}" result="${array_item[1]}">${array_item[0].replace(/[^a-zа-яё0-9\s]/gi, ' ')} <span>${array_item[1]}</span></h4>
+                                `
+                            });
+                            result_all();
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    })
                 }
             </script>
             {% endif %}
         {% endfor %}
-        <div id="button-block"></div>
-        <div class="footer-block"></div>
+        <div id="button-block">
+            
+        </div>
+        <div class="footer-block">
+            {% comment %} <button onclick="result()">test</button> {% endcomment %}
+        </div>
     </div>
-    
+    <script>
+        function result_all(){
+            $('h4').each(function() {
+                var resid = $(this).attr('id')
+                if(resid == 'res0'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 4) {
+                        $('#res0').addClass('low')
+                    }
+                    if(color >= 9) {
+                        $('#res0').removeClass('low')
+                        $('#res0').addClass('medium')
+                    }
+                    if(color > 14) {
+                        $('#res0').removeClass('medium')
+                        $('#res0').addClass('hard')
+                    }
+                }
+                if(resid == 'res1'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 4) {
+                        $('#res1').addClass('low')
+                    }
+                    if(color >= 9) {
+                        $('#res1').removeClass('low')
+                        $('#res1').addClass('medium')
+                    }
+                    if(color > 14) {
+                        $('#res1').removeClass('medium')
+                        $('#res1').addClass('hard')
+                    }
+                }
+                if(resid == 'res2'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res2').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res2').removeClass('low')
+                        $('#res2').addClass('medium')
+                    }
+                    if(color > 9) {
+                        $('#res2').removeClass('medium')
+                        $('#res2').addClass('hard')
+                    }
+                }
+                if(resid == 'res3'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 5) {
+                        $('#res3').removeClass('medium')
+                        $('#res3').addClass('hard')
+                    }
+                }
+                if(resid == 'res4'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 5) {
+                        $('#res4').removeClass('medium')
+                        $('#res4').addClass('hard')
+                    }
+                }
+                if(resid == 'res5'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 6) {
+                        $('#res5').addClass('low')
+                    }
+                    if(color >= 11) {
+                        $('#res5').removeClass('low')
+                        $('#res5').addClass('medium')
+                    }
+                    if(color > 16) {
+                        $('#res5').removeClass('medium')
+                        $('#res5').addClass('hard')
+                    }
+                }
+                if(resid == 'res6'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res6').addClass('low')
+                    }
+                    if(color >= 7) {
+                        $('#res6').removeClass('low')
+                        $('#res6').addClass('medium')
+                    }
+                    if(color > 12) {
+                        $('#res6').removeClass('medium')
+                        $('#res6').addClass('hard')
+                    }
+                }
+                if(resid == 'res7'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res7').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res7').removeClass('low')
+                        $('#res7').addClass('medium')
+                    }
+                    if(color > 9) {
+                        $('#res7').removeClass('medium')
+                        $('#res7').addClass('hard')
+                    }
+                }
+                if(resid == 'res8'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res8').addClass('low')
+                    }
+                    if(color >= 7) {
+                        $('#res8').removeClass('low')
+                        $('#res8').addClass('medium')
+                    }
+                    if(color > 12) {
+                        $('#res8').removeClass('medium')
+                        $('#res8').addClass('hard')
+                    }
+                }
+                if(resid == 'res9'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res9').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res9').removeClass('low')
+                        $('#res9').addClass('medium')
+                    }
+                    if(color > 11) {
+                        $('#res9').removeClass('medium')
+                        $('#res9').addClass('hard')
+                    }
+                }
+                if(resid == 'res10'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 5) {
+                        $('#res10').addClass('low')
+                    }
+                    if(color >= 14) {
+                        $('#res10').removeClass('low')
+                        $('#res10').addClass('medium')
+                    }
+                    if(color > 22) {
+                        $('#res10').removeClass('medium')
+                        $('#res10').addClass('hard')
+                    }
+                }
+                if(resid == 'res11'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 5) {
+                        $('#res11').addClass('low')
+                    }
+                    if(color >= 14) {
+                        $('#res11').removeClass('low')
+                        $('#res11').addClass('medium')
+                    }
+                    if(color > 22) {
+                        $('#res11').removeClass('medium')
+                        $('#res11').addClass('hard')
+                    }
+                }
+                if(resid == 'res12'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 3) {
+                        $('#res12').addClass('low')
+                    }
+                    if(color >= 8) {
+                        $('#res12').removeClass('low')
+                        $('#res12').addClass('medium')
+                    }
+                    if(color > 13) {
+                        $('#res12').removeClass('medium')
+                        $('#res12').addClass('hard')
+                    }
+                }
+                if(resid == 'res13'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 6) {
+                        $('#res13').addClass('low')
+                    }
+                    if(color >= 12) {
+                        $('#res13').removeClass('low')
+                        $('#res13').addClass('medium')
+                    }
+                    if(color > 17) {
+                        $('#res13').removeClass('medium')
+                        $('#res13').addClass('hard')
+                    }
+                }
+                if(resid == 'res14'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 6) {
+                        $('#res14').addClass('low')
+                    }
+                    if(color >= 11) {
+                        $('#res14').removeClass('low')
+                        $('#res14').addClass('medium')
+                    }
+                    if(color > 16) {
+                        $('#res14').removeClass('medium')
+                        $('#res14').addClass('hard')
+                    }
+                }
+                if(resid == 'res15'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res15').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res15').removeClass('low')
+                        $('#res15').addClass('medium')
+                    }
+                    if(color > 11) {
+                        $('#res15').removeClass('medium')
+                        $('#res15').addClass('hard')
+                    }
+                }
+                if(resid == 'res16'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res16').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res16').removeClass('low')
+                        $('#res16').addClass('medium')
+                    }
+                    if(color > 9) {
+                        $('#res16').removeClass('medium')
+                        $('#res16').addClass('hard')
+                    }
+                }
+                if(resid == 'res17'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 3) {
+                        $('#res17').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res17').removeClass('low')
+                        $('#res17').addClass('medium')
+                    }
+                    if(color > 9) {
+                        $('#res17').removeClass('medium')
+                        $('#res17').addClass('hard')
+                    }
+                }
+                if(resid == 'res18'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res18').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res18').removeClass('low')
+                        $('#res18').addClass('medium')
+                    }
+                    if(color > 11) {
+                        $('#res18').removeClass('medium')
+                        $('#res18').addClass('hard')
+                    }
+                }
+                if(resid == 'res19'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 6) {
+                        $('#res18').addClass('low')
+                    }
+                    if(color >= 13) {
+                        $('#res18').removeClass('low')
+                        $('#res18').addClass('medium')
+                    }
+                    if(color > 19) {
+                        $('#res19').removeClass('medium')
+                        $('#res19').addClass('hard')
+                    }
+                }
+                if(resid == 'res20'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 6) {
+                        $('#res20').addClass('low')
+                    }
+                    if(color >= 13) {
+                        $('#res20').removeClass('low')
+                        $('#res20').addClass('medium')
+                    }
+                    if(color > 19) {
+                        $('#res20').removeClass('medium')
+                        $('#res20').addClass('hard')
+                    }
+                }
+                if(resid == 'res21'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res21').addClass('low')
+                    }
+                    if(color >= 7) {
+                        $('#res21').removeClass('low')
+                        $('#res21').addClass('medium')
+                    }
+                    if(color > 13) {
+                        $('#res21').removeClass('medium')
+                        $('#res21').addClass('hard')
+                    }
+                }
+                if(resid == 'res22'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 2) {
+                        $('#res22').addClass('low')
+                    }
+                    if(color >= 6) {
+                        $('#res22').removeClass('low')
+                        $('#res22').addClass('medium')
+                    }
+                    if(color > 11) {
+                        $('#res22').removeClass('medium')
+                        $('#res22').addClass('hard')
+                    }
+                }
+                if(resid == 'res23'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 14) {
+                        $('#res23').removeClass('medium')
+                        $('#res23').addClass('hard')
+                    }
+                }
+                if(resid == 'res24'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 14) {
+                        $('#res24').removeClass('medium')
+                        $('#res24').addClass('hard')
+                    }
+                }
+                if(resid == 'res25'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 9) {
+                        $('#res25').removeClass('medium')
+                        $('#res25').addClass('hard')
+                    }
+                }
+                if(resid == 'res26'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 0) {
+                        $('#res26').addClass('low')
+                    }
+                    if(color >= 20) {
+                        $('#res26').removeClass('low')
+                        $('#res26').addClass('medium')
+                    }
+                    if(color > 40) {
+                        $('#res26').removeClass('medium')
+                        $('#res26').addClass('hard')
+                    }
+                }
+                if(resid == 'res27'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 0) {
+                        $('#res27').addClass('low')
+                    }
+                    if(color >= 12) {
+                        $('#res27').removeClass('low')
+                        $('#res27').addClass('medium')
+                    }
+                    if(color > 25) {
+                        $('#res27').removeClass('medium')
+                        $('#res27').addClass('hard')
+                    }
+                }
+                if(resid == 'res28'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 0) {
+                        $('#res28').addClass('low')
+                    }
+                    if(color >= 20) {
+                        $('#res28').removeClass('low')
+                        $('#res28').addClass('medium')
+                    }
+                    if(color > 40) {
+                        $('#res28').removeClass('medium')
+                        $('#res28').addClass('hard')
+                    }
+                }
+                if(resid == 'res29'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 0) {
+                        $('#res29').addClass('low')
+                    }
+                    if(color >= 4) {
+                        $('#res29').removeClass('low')
+                        $('#res29').addClass('medium')
+                    }
+                    if(color > 6) {
+                        $('#res29').removeClass('medium')
+                        $('#res29').addClass('hard')
+                    }
+                }
+                if(resid == 'res30'){
+                    var color = Number($(this).attr('result'))
+                    if(color >= 0) {
+                        $('#res29').addClass('low')
+                    }
+                    if(color >= 12) {
+                        $('#res30').removeClass('low')
+                        $('#res30').addClass('medium')
+                    }
+                    if(color > 24) {
+                        $('#res30').removeClass('medium')
+                        $('#res30').addClass('hard')
+                    }
+                }
+                if(resid == 'res30'){
+                    var color = Number($(this).attr('result'))
+                    if(color < 40) {
+                        $('#res30').addClass('low')
+                    }
+                    if(color >= 41) {
+                        $('#res30').removeClass('low')
+                        $('#res30').addClass('medium')
+                    }
+                    if(color > 61) {
+                        $('#res30').removeClass('medium')
+                        $('#res30').addClass('hard')
+                    }
+                }
+                if(resid == 'res31'){
+                    var color = Number($(this).attr('result'))
+                    if(color < 14) {
+                        $('#res31').addClass('low')
+                    }
+                    if(color < 7) {
+                        $('#res31').removeClass('low')
+                        $('#res31').addClass('medium')
+                    }
+                    if(color < 9) {
+                        $('#res31').removeClass('medium')
+                        $('#res31').addClass('hard')
+                    }
+                }
+                if(resid == 'res32'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 8) {
+                        $('#res32').addClass('medium')
+                    }
+                    if(color > 10) {
+                        $('#res32').removeClass('low')
+                        $('#res32').addClass('hard')
+                    }
+                    if(color > 15) {
+                        $('#res32').removeClass('medium')
+                        $('#res32').addClass('low')
+                    }
+                }
+                if(resid == 'res33'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 10) {
+                        $('#res33').addClass('medium')
+                    }
+                    if(color > 14) {
+                        $('#res33').removeClass('low')
+                        $('#res33').addClass('hard')
+                    }
+                    if(color > 19) {
+                        $('#res33').removeClass('medium')
+                        $('#res33').addClass('low')
+                    }
+                }
+                if(resid == 'res34'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 15) {
+                        $('#res34').addClass('medium')
+                    }
+                    if(color > 21) {
+                        $('#res34').removeClass('low')
+                        $('#res34').addClass('hard')
+                    }
+                    if(color > 26) {
+                        $('#res34').removeClass('medium')
+                        $('#res34').addClass('low')
+                    }
+                }
+                if(resid == 'res35'){
+                    var color = Number($(this).attr('result'))
+                    if(color > 20) {
+                        $('#res35').addClass('medium')
+                    }
+                    if(color > 28) {
+                        $('#res35').removeClass('low')
+                        $('#res35').addClass('hard')
+                    }
+                    if(color > 34) {
+                        $('#res35').removeClass('medium')
+                        $('#res35').addClass('low')
+                    }
+                }
+            });
+        }
+    </script>
 {% endblock content %}
