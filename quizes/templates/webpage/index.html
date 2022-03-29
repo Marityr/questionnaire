@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'webpage/main.js' %}" defer></script>
+{% endblock scripts %}
+
+{% block title %}
+    Опрос
+{% endblock title %}
+
+{% block content %}
+    <div class="block-main">
+        <div id="header-block">
+            <h1>Начальный заголовок</h1>
+        </div>
+        <hr>
+        <div id="body-block">
+            <p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст.По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст.</p>
+        </div>
+        <form id="body-form" class="form-active">
+            {% csrf_token %}
+            <div id="body-form-input">
+
+            </div>
+        </form>
+        <div id="button-block">
+            <button class="btn btn-lg w-100 btn-primary" id="activate-test">START</button>
+        </div>
+        <div class="footer-block">
+            
+        </div>
+    </div>
+{% endblock content %}

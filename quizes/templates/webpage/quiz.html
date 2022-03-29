@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+    <script src="{% static 'webpage/quiz.js' %}" defer></script>
+{% endblock scripts %}
+{% block title %}
+    Опрос
+{% endblock title %}
+{% block content %}
+    <div class="block-main">
+        <a href="/"><button class="home-button">HOME</button></a>
+        <div class="progress">
+            <div class="progress-bar"
+                 role="progressbar"
+                 style="width: 0%"
+                 aria-valuenow="0"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+        </div>
+        <br>
+        {% for data in questions %}
+            <form id="body-form-{{ forloop.counter }}" class="step-{{ forloop.counter }} {% if forloop.counter == 1 %}form-active{% endif %}"
+            step="{{ forloop.counter }}">
+            {% csrf_token %}
+            {% for item in data  %}
+                {% if forloop.counter == 1 %}
+                    <h1>{{item}}</h1>
+                {% endif %}
+                {% if forloop.counter == 2 %}
+                    <h4>{{item}}</h4>
+                {% endif %}
+                {% if forloop.counter > 2 %}
+                    <div class="row">
+                    {% for obj in item %}
+                        {% if forloop.counter == 1 %}
+                            <label for="">{{obj}}</label>
+                        {% endif %}
+                        {% if forloop.counter > 1 %}
+                                <div class="col-3">
+                                    <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{obj}}">
+                                    <label for="">{{obj}}</label>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                {% comment %} {{item}} {% endcomment %}
+            {% endfor %}
+
+                {% if not forloop.last %}
+                    <button type="submit"
+                    class="btn btn-lg w-100 btn-primary"
+                    name="button"
+                    id="step"
+                    bstep="{{ forloop.counter }}">
+                        NEXT
+                    </button>
+                {% endif %}
+                {% if forloop.last %}
+                    <button type="submit"
+                    class="btn btn-lg w-100 btn-primary"
+                    name="button"
+                    id="step"
+                    bstep="{{ forloop.counter }}" onclick="result()">
+                        NEXT - RESULT
+                    </button>
+                {% endif %}
+            </form>
+            <script>
+                $("#body-form-{{ forloop.counter }}").submit(function (e) {
+
+                    e.preventDefault(); // avoid to execute the actual submit of the form.
+                
+                    var form = $(this);
+                    
+                    const elements = [...document.getElementById("body-form-{{ forloop.counter }}")]
+                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+                    const ansel = [...document.getElementsByClassName('ans')]
+                    const url = window.location.href
+                    const data = {}
+                    const data_form = {}
+                    data['csrfmiddlewaretoken'] = csrf[0].value
+                    data_form['csrfmiddlewaretoken'] = csrf[0].value
+                
+                    result_block = 0
+                    elements.forEach(el => {
+                        if (el.checked) {
+                            data[el.name] = el.value
+                            result_block += Number(el.value)
+                        } else {
+                            if (!data[el.name]) {
+                                data[el.name] = null
+                            }
+                        }
+                
+                        if (el.type == 'submit') {
+                            var step = Number($(el).attr('bstep'));
+                            var progress = Number($('.progress-bar').attr('aria-valuenow'));
+
+                            progress_bar(step, progress);
+                        }
+                    })
+
+                    data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h4').text()
+                    data_form['result_block'] = result_block
+                    console.log(data_form)
+                
+                    $.ajax({
+                        type: 'POST',
+                        url: `${url}save/`,
+                        data: data_form,
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    })
+                
+                });
+            </script>
+            {% if forloop.last %}
+            <div class="result" id="result" all-step="{{forloop.counter}}">
+                <h2>RESULT</h2>
+                <div class="row" id="result-block">
+
+                </div>
+            </div>
+            <script>
+                var step = Number({{ forloop.counter }});
+                $('.result').addClass('step-'+ (step +1))
+                function result(){
+                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+                    const url = window.location.href
+                    const datat = {}
+                    const resultBlock = document.getElementById('button-block')
+                    datat['csrfmiddlewaretoken'] = csrf[0].value
+                    $.ajax({
+                        type: 'POST',
+                        url: `${url}result/`,
+                        data: datat,
+                        success: function (response) {
+                            result = response.result
+                            const resultBlock = document.getElementById('result-block')
+                            result.forEach(el => {
+                                resultBlock.innerHTML += `
+                                    <div class="col-md-4 res_block">
+                                        <h6>${el[0]}</h6>
+                                        <span>${el[1]}</span>
+                                    </div>
+                                `
+                                
+                            })
+
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    })
+                }
+            </script>
+            {% endif %}
+        {% endfor %}
+        <div id="header-block">
+        </div>
+        <div id="body-block"></div>
+        <div id="button-block"></div>
+        <div class="footer-block"></div>
+    </div>
+    <script>
+        function progress_bar(step, progress){
+            var all_step = Number($('#result').attr('all-step'))
+            console.log(all_step)
+
+            step_bar = 100 / all_step
+
+
+            $('.step-' + step + '').removeClass('form-active');
+            $('.step-' + (step + 1) + '').addClass('form-active');
+            $('.progress-bar').attr('style', 'width: ' + (progress + step_bar) + '%');
+            $('.progress-bar').attr('aria-valuenow', (progress + step_bar));
+        }
+    </script>
+{% endblock content %}
