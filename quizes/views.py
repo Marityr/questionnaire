@@ -96,6 +96,7 @@ class QuizView(View):
 
         return JsonResponse({'text': 'works'})
 
+<<<<<<< Updated upstream
     def userdata() -> dict():
 
         context = {}
@@ -132,6 +133,9 @@ def save_quiz_view(request, pk):
         print(dtr)
     return JsonResponse({'text': 'works'})
 =======
+=======
+
+>>>>>>> Stashed changes
 def save_quiz(request, uid):
     if request.is_ajax():
         data = request.POST
@@ -163,4 +167,7 @@ def result_quiz(request, uid):
         tmp.append(item.result)
         all_result.append(tmp)
     return JsonResponse({'result': all_result})
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

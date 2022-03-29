@@ -11,6 +11,9 @@ from .views import (
     QuizView, 
     save_quiz,
     result_quiz,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 )
 
@@ -20,9 +23,14 @@ urlpatterns = [
     path('', QuizListView.as_view(), name='main-view'),
     path('<uid>/', QuizView.as_view(), name='quiz-view'),
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     path('<pk>/save/', save_quiz_view, name='save-quiz-view'),
     # path('<pk>/data/', quiz_data_view, name='quiz-data-view'),
+=======
+    path('<uid>/save/', save_quiz, name='quiz-save'),
+    path('<uid>/result/', result_quiz, name='quiz-result'),
+>>>>>>> Stashed changes
 =======
     path('<uid>/save/', save_quiz, name='quiz-save'),
     path('<uid>/result/', result_quiz, name='quiz-result'),

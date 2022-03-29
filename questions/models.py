@@ -37,9 +37,13 @@ class Answer(models.Model):
 
     text = models.CharField(max_length=200)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     tultype = models.TextField(verbose_name='Подсказка к ответу', blank=True, null=True)
     min_bal = models.IntegerField(verbose_name='Минимальное значение ответа', default=0)
     max_bal = models.IntegerField(verbose_name='Максимальное значение ответа')
+=======
+    #TODO добавить значение ответов
+>>>>>>> Stashed changes
 =======
     #TODO добавить значение ответов
 >>>>>>> Stashed changes

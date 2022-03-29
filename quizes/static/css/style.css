@@ -30,6 +30,14 @@ body {
     padding: 5px 15px;
     position: absolute;
     top: -45px;
+<<<<<<< Updated upstream
+=======
+}
+
+input, select {
+    margin: 5px 0;
+    display: inline-block;
+>>>>>>> Stashed changes
 }
 
 input, select {

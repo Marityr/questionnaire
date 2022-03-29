@@ -9,9 +9,13 @@
 {% block content %}
     <div class="block-main">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <div id="header-block">
             <h1>{{ obj.name }}</h1>
         </div>
+=======
+        <a href="/"><button class="home-button">HOME</button></a>
+>>>>>>> Stashed changes
 =======
         <a href="/"><button class="home-button">HOME</button></a>
 >>>>>>> Stashed changes
@@ -89,12 +93,27 @@
             {% endfor %}
 
                 {% if not forloop.last %}
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
                     <button type="submit"
                     class="btn btn-lg w-100 btn-primary"
                     name="button"
                     id="step"
 <<<<<<< Updated upstream
+=======
+                    bstep="{{ forloop.counter }}">
+                        NEXT
+                    </button>
+                {% endif %}
+                {% if forloop.last %}
+=======
+>>>>>>> Stashed changes
+                    <button type="submit"
+                    class="btn btn-lg w-100 btn-primary"
+                    name="button"
+                    id="step"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 =======
                     bstep="{{ forloop.counter }}">
                         NEXT
@@ -142,6 +161,7 @@
                             var step = Number($(el).attr('bstep'));
                             var progress = Number($('.progress-bar').attr('aria-valuenow'));
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 
                             $('.step-' + step + '').removeClass('form-active');
                             $('.step-' + (step + 1) + '').addClass('form-active');
@@ -149,6 +169,10 @@
                             $('.progress-bar').attr('style', 'width: ' + (progress + 10) + '%');
                             $('.progress-bar').attr('aria-valuenow', (progress + 10));
                             // console.log(step)
+=======
+
+                            progress_bar(step, progress);
+>>>>>>> Stashed changes
 =======
 
                             progress_bar(step, progress);
@@ -176,14 +200,20 @@
             </script>
             {% if forloop.last %}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <div class="result">
                 Результаты
 =======
+=======
+>>>>>>> Stashed changes
             <div class="result" id="result" all-step="{{forloop.counter}}">
                 <h2>RESULT</h2>
                 <div class="row" id="result-block">
 
                 </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             </div>
             <script>
@@ -191,8 +221,11 @@
                 $('.result').addClass('step-'+ (step +1))
                 function result(){
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     alert('alert')
 =======
+=======
+>>>>>>> Stashed changes
                     const csrf = document.getElementsByName('csrfmiddlewaretoken')
                     const url = window.location.href
                     const datat = {}
@@ -220,6 +253,9 @@
                             console.log(error)
                         },
                     })
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 }
             </script>
