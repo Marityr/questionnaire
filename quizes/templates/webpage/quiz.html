@@ -8,9 +8,13 @@
 {% endblock title %}
 {% block content %}
     <div class="block-main">
+<<<<<<< Updated upstream
         <div id="header-block">
             <h1>{{ obj.name }}</h1>
         </div>
+=======
+        <a href="/"><button class="home-button">HOME</button></a>
+>>>>>>> Stashed changes
         <div class="progress">
             <div class="progress-bar"
                  role="progressbar"
@@ -24,6 +28,7 @@
         <div id="body-block"></div>
         {% for item in data %}
             <form id="body-form-{{ forloop.counter }}" class="step-{{ forloop.counter }} {% if forloop.counter == 1 %}form-active{% endif %}"
+<<<<<<< Updated upstream
                   step="{{ forloop.counter }}">
                 {% csrf_token %}
                 {% for obj in item %}
@@ -55,10 +60,52 @@
                     </button>
                 {% endif %}
                 {% if forloop.last %}
+=======
+            step="{{ forloop.counter }}">
+            {% csrf_token %}
+            {% for item in data  %}
+                {% if forloop.counter == 1 %}
+                    <h1>{{item}}</h1>
+                {% endif %}
+                {% if forloop.counter == 2 %}
+                    <h4>{{item}}</h4>
+                {% endif %}
+                {% if forloop.counter > 2 %}
+                    <div class="row">
+                    {% for obj in item %}
+                        {% if forloop.counter == 1 %}
+                            <label for="">{{obj}}</label>
+                        {% endif %}
+                        {% if forloop.counter > 1 %}
+                                <div class="col-3">
+                                    <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{obj}}">
+                                    <label for="">{{obj}}</label>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                {% comment %} {{item}} {% endcomment %}
+            {% endfor %}
+
+                {% if not forloop.last %}
+>>>>>>> Stashed changes
                     <button type="submit"
                     class="btn btn-lg w-100 btn-primary"
                     name="button"
                     id="step"
+<<<<<<< Updated upstream
+=======
+                    bstep="{{ forloop.counter }}">
+                        NEXT
+                    </button>
+                {% endif %}
+                {% if forloop.last %}
+                    <button type="submit"
+                    class="btn btn-lg w-100 btn-primary"
+                    name="button"
+                    id="step"
+>>>>>>> Stashed changes
                     bstep="{{ forloop.counter }}" onclick="result()">
                         NEXT - RESULT
                     </button>
@@ -72,11 +119,19 @@
                     var form = $(this);
                     
                     const elements = [...document.getElementById("body-form-{{ forloop.counter }}")]
+                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+                    const ansel = [...document.getElementsByClassName('ans')]
+                    const url = window.location.href
                     const data = {}
+                    const data_form = {}
+                    data['csrfmiddlewaretoken'] = csrf[0].value
+                    data_form['csrfmiddlewaretoken'] = csrf[0].value
                 
+                    result_block = 0
                     elements.forEach(el => {
-                        if (el) {
+                        if (el.checked) {
                             data[el.name] = el.value
+                            result_block += Number(el.value)
                         } else {
                             if (!data[el.name]) {
                                 data[el.name] = null
@@ -86,6 +141,7 @@
                         if (el.type == 'submit') {
                             var step = Number($(el).attr('bstep'));
                             var progress = Number($('.progress-bar').attr('aria-valuenow'));
+<<<<<<< Updated upstream
                 
                             $('.step-' + step + '').removeClass('form-active');
                             $('.step-' + (step + 1) + '').addClass('form-active');
@@ -93,15 +149,21 @@
                             $('.progress-bar').attr('style', 'width: ' + (progress + 10) + '%');
                             $('.progress-bar').attr('aria-valuenow', (progress + 10));
                             // console.log(step)
+=======
+
+                            progress_bar(step, progress);
+>>>>>>> Stashed changes
                         }
                     })
-                
-                    console.log(data)
+
+                    data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h4').text()
+                    data_form['result_block'] = result_block
+                    console.log(data_form)
                 
                     $.ajax({
                         type: 'POST',
-                        url: `save/`,
-                        data: data,
+                        url: `${url}save/`,
+                        data: data_form,
                         success: function (response) {
                             console.log(response)
                         },
@@ -113,14 +175,52 @@
                 });
             </script>
             {% if forloop.last %}
+<<<<<<< Updated upstream
             <div class="result">
                 Результаты
+=======
+            <div class="result" id="result" all-step="{{forloop.counter}}">
+                <h2>RESULT</h2>
+                <div class="row" id="result-block">
+
+                </div>
+>>>>>>> Stashed changes
             </div>
             <script>
                 var step = Number({{ forloop.counter }});
                 $('.result').addClass('step-'+ (step +1))
                 function result(){
+<<<<<<< Updated upstream
                     alert('alert')
+=======
+                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+                    const url = window.location.href
+                    const datat = {}
+                    const resultBlock = document.getElementById('button-block')
+                    datat['csrfmiddlewaretoken'] = csrf[0].value
+                    $.ajax({
+                        type: 'POST',
+                        url: `${url}result/`,
+                        data: datat,
+                        success: function (response) {
+                            result = response.result
+                            const resultBlock = document.getElementById('result-block')
+                            result.forEach(el => {
+                                resultBlock.innerHTML += `
+                                    <div class="col-md-4 res_block">
+                                        <h6>${el[0]}</h6>
+                                        <span>${el[1]}</span>
+                                    </div>
+                                `
+                                
+                            })
+
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    })
+>>>>>>> Stashed changes
                 }
             </script>
             {% endif %}
@@ -128,5 +228,18 @@
         <div id="button-block"></div>
         <div class="footer-block"></div>
     </div>
-    
+    <script>
+        function progress_bar(step, progress){
+            var all_step = Number($('#result').attr('all-step'))
+            console.log(all_step)
+
+            step_bar = 100 / all_step
+
+
+            $('.step-' + step + '').removeClass('form-active');
+            $('.step-' + (step + 1) + '').addClass('form-active');
+            $('.progress-bar').attr('style', 'width: ' + (progress + step_bar) + '%');
+            $('.progress-bar').attr('aria-valuenow', (progress + step_bar));
+        }
+    </script>
 {% endblock content %}
