@@ -8,7 +8,10 @@
 {% endblock title %}
 {% block content %}
     <div class="block-main">
-        <a href="/"><button class="home-button">HOME</button></a>
+        <div class="home-button">
+            <a href="/"><button>HOME</button></a>
+            <button>ID - <span>{{uid}}-</span></button>
+        </div>
         <div class="progress">
             <div class="progress-bar"
                  role="progressbar"
@@ -30,27 +33,37 @@
                 {% if forloop.counter == 2 %}
                     <h4>{{item}}</h4>
                 {% endif %}
-                {% if forloop.counter > 2 %}
+                {% if forloop.counter == 3 %}
+                    {{item|safe}}
+                {% endif %}
+                {% if forloop.counter > 3 %}
                     <div class="row">
                     {% for obj in item %}
                         {% if forloop.counter == 1 %}
                             <label for="">{{obj}}</label>
                         {% endif %}
                         {% if forloop.counter > 1 %}
-                                <div class="col-3">
-                                    <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{obj}}">
-                                    <label for="">{{obj}}</label>
-                                </div>
+                            <div class="col-3">
+                            {% for answer in obj %}
+                                {% if forloop.first %}
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{answer}}">
+                                {% endif %}
+                                {% if forloop.last %}
+                                <label for="">{{answer}}</label>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
                         {% endif %}
                     {% endfor %}
                     </div>
                 {% endif %}
                 {% comment %} {{item}} {% endcomment %}
             {% endfor %}
-
+                <div class="row button-row">
+                    <div class="col">
                 {% if not forloop.last %}
                     <button type="submit"
-                    class="btn btn-lg w-100 btn-primary"
+                    class="btn btn-lg btn-primary"
                     name="button"
                     id="step"
                     bstep="{{ forloop.counter }}">
@@ -59,20 +72,19 @@
                 {% endif %}
                 {% if forloop.last %}
                     <button type="submit"
-                    class="btn btn-lg w-100 btn-primary"
+                    class="btn btn-lg btn-primary resbtn"
                     name="button"
                     id="step"
-                    bstep="{{ forloop.counter }}" onclick="result()">
+                    bstep="{{ forloop.counter }}" result="result" onclick="">
                         NEXT - RESULT
                     </button>
                 {% endif %}
+                </div></div>
             </form>
             <script>
                 $("#body-form-{{ forloop.counter }}").submit(function (e) {
 
                     e.preventDefault(); // avoid to execute the actual submit of the form.
-                
-                    var form = $(this);
                     
                     const elements = [...document.getElementById("body-form-{{ forloop.counter }}")]
                     const csrf = document.getElementsByName('csrfmiddlewaretoken')
@@ -97,14 +109,24 @@
                         if (el.type == 'submit') {
                             var step = Number($(el).attr('bstep'));
                             var progress = Number($('.progress-bar').attr('aria-valuenow'));
-
                             progress_bar(step, progress);
                         }
                     })
 
                     data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h4').text()
                     data_form['result_block'] = result_block
-                    console.log(data_form)
+
+                    function revie(e) {
+                        elements.forEach(el => {
+                            if (el.type == 'submit') {
+                                const res = el.hasAttribute('result')
+                                console.log(res)
+                                if(res == true) {
+                                    result()
+                                }
+                            }
+                        })
+                    }
                 
                     $.ajax({
                         type: 'POST',
@@ -112,12 +134,13 @@
                         data: data_form,
                         success: function (response) {
                             console.log(response)
+                            revie()
                         },
                         error: function (error) {
                             console.log(error)
                         },
                     })
-                
+                    
                 });
             </script>
             {% if forloop.last %}
@@ -130,35 +153,6 @@
             <script>
                 var step = Number({{ forloop.counter }});
                 $('.result').addClass('step-'+ (step +1))
-                function result(){
-                    const csrf = document.getElementsByName('csrfmiddlewaretoken')
-                    const url = window.location.href
-                    const datat = {}
-                    const resultBlock = document.getElementById('button-block')
-                    datat['csrfmiddlewaretoken'] = csrf[0].value
-                    $.ajax({
-                        type: 'POST',
-                        url: `${url}result/`,
-                        data: datat,
-                        success: function (response) {
-                            result = response.result
-                            const resultBlock = document.getElementById('result-block')
-                            result.forEach(el => {
-                                resultBlock.innerHTML += `
-                                    <div class="col-md-4 res_block">
-                                        <h6>${el[0]}</h6>
-                                        <span>${el[1]}</span>
-                                    </div>
-                                `
-                                
-                            })
-
-                        },
-                        error: function (error) {
-                            console.log(error)
-                        },
-                    })
-                }
             </script>
             {% endif %}
         {% endfor %}
@@ -180,6 +174,35 @@
             $('.step-' + (step + 1) + '').addClass('form-active');
             $('.progress-bar').attr('style', 'width: ' + (progress + step_bar) + '%');
             $('.progress-bar').attr('aria-valuenow', (progress + step_bar));
+        }
+        function result(){
+            const csrf = document.getElementsByName('csrfmiddlewaretoken')
+            const url = window.location.href
+            const datat = {}
+            const resultBlock = document.getElementById('button-block')
+            datat['csrfmiddlewaretoken'] = csrf[0].value
+            $.ajax({
+                type: 'POST',
+                url: `${url}result/`,
+                data: datat,
+                success: function (response) {
+                    result = response.result
+                    console.log(result)
+                    const resultBlock = document.getElementById('result-block')
+                    result.forEach(el => {
+                        resultBlock.innerHTML += `
+                            <div class="col-md-4 res_block">
+                                <h6>${el[0]}</h6>
+                                <span>${el[1]}</span>
+                            </div>
+                        `                    
+                    })
+
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+            })
         }
     </script>
 {% endblock content %}

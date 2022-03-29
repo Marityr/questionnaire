@@ -22,10 +22,14 @@ startQuiz.addEventListener('click', () => {
     <input class="form-control form-control-lg" type="text" placeholder="Имя" name="name">
     <input class="form-control form-control-lg" type="email" placeholder="Email" name="email">
     <select class="form-select" aria-label="Default select example" name="male">
-        <option selected>choose your gender</option>
-        <option value="man">Man</option>
-        <option value="woman">Woman</option>
-        <option value="other">Other</option>
+        <option selected>Gender</option>
+        <option value="male">Male</option>
+        <option value="famele">Famele</option>
+        <option value="nonbinary">Non-binary</option>
+        <option value="transgender">Transgender</option>
+        <option value="intersex">Intersex</option>
+        <option value="letmetype">Let me type...</option>
+        <option value="iprefernottosay">I prefer not to say</option>
     </select>
     <button type="submit" class="btn btn-lg w-100 btn-primary" name="button" id="step-1">Далее</button>
     `  

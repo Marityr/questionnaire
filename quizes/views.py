@@ -39,19 +39,21 @@ class QuizView(View):
             questions = []
             questions.append(str(item.title_block))
             questions.append(str(item.topic))
+            questions.append(str(item.legend))
             for q in quiz.get_questions():
                 answers = []
                 answers.append(str(q))
                 for a in q.get_answers():
-                    # tmp = []
-                    # tmp.append(a.text)
-                    # tmp.append(a.id)
-                    answers.append(a.text)
+                    tmp = []
+                    tmp.append(a.text)
+                    tmp.append(a.value_answer)
+                    answers.append(tmp)
                     pass
                 questions.append(answers)
             all_block.append(questions)
         context = {
             'questions': all_block,
+            'uid': uid,
         }
 
         return render(request, 'webpage/quiz.html', context)
@@ -98,4 +100,5 @@ def result_quiz(request, uid):
         tmp.append(item.questions)
         tmp.append(item.result)
         all_result.append(tmp)
+    print(all_result)
     return JsonResponse({'result': all_result})

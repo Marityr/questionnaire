@@ -27,7 +27,7 @@ class Answer(models.Model):
     """Ответы"""
 
     text = models.CharField(max_length=200)
-    #TODO добавить значение ответов
+    value_answer = models.CharField(max_length=200)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
