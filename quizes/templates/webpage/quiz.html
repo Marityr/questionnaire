@@ -46,7 +46,7 @@
                             <div class="col-3">
                             {% for answer in obj %}
                                 {% if forloop.first %}
-                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{answer}}">
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}">
                                 {% endif %}
                                 {% if forloop.last %}
                                 <label for="">{{answer}}</label>
@@ -61,7 +61,7 @@
             {% endfor %}
                 <div class="row button-row">
                 <div class="col">
-                {% if forloop.counter > 0 or forloop.counter == 20 or forloop.counter == 21 or forloop.counter == 22  %}
+                {% if forloop.counter > 19 or forloop.counter == 20 or forloop.counter == 21  %}
                 <button type="button"
                 class="btn btn-lg btn-primary skipbtn"
                 name="button"
@@ -163,7 +163,7 @@
             </script>
             {% if forloop.last %}
             <div class="result" id="result" all-step="{{forloop.counter}}">
-                <h2>RESULT</h2>
+                <h2>Welly Screenig Resultat</h2>
                 <div class="row" id="result-block">
 
                 </div>
@@ -209,11 +209,17 @@
                     const resultBlock = document.getElementById('result-block')
                     result.forEach(el => {
                         resultBlock.innerHTML += `
-                            <div class="col-md-4 res_block">
-                                <h6>${el[0]}</h6>
-                                <span>${el[1]}</span>
-                            </div>
-                        `                    
+                                <h2>${el[0]}</h2>
+                                <div id="resultanswers"></div>
+                        `
+                        delete el[0]
+                        const resultAnswers = document.getElementById('resultanswers')
+                        el.forEach(elements =>{
+                            resultBlock.innerHTML += `
+                                <p class="">${elements[0]} <span>${elements[1]}</span></p>
+                        `     
+                        })
+                                   
                     })
 
                 },

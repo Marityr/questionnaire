@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 
 from .models import Quiz, BlockQuiz
-from questions.models import ResultAnswers, Result_answers
+from questions.models import Question, ResultAnswers, Result_answers
 
 import json
 
@@ -87,17 +87,32 @@ def save_quiz(request, uid):
 
 def result_quiz(request, uid):
     result_user = Result_answers.objects.filter(uid=uid)
-    quiz = Quiz.objects.all()
+    block = BlockQuiz.objects.all()
+    
+
+    all_result = []
+    for item in result_user:
+        tmp = []
+        tmp.append(item.questions)
+        tmp.append(item.result)
+        all_result.append(tmp)
 
     result_all = []
-    for obj in quiz:
-        res = []
-        res.append(obj.title_block)
-        for item in result_user:
-            tmp = []
-            tmp.append(item.questions)
-            tmp.append(item.result)
-            res.append(tmp)
-        result_all.append(res)
-    # print(all_result)
+    for item in block:
+        tmp = []
+        tmp.append(item.title)
+        print(item.title)
+        quiz = Quiz.objects.filter(title_block=item.id)
+        for obj in quiz:
+            tmp2 = []
+            # print(obj.topic)
+            for it in all_result:
+                if it[0] == obj.topic:
+                    tmp2.append(it[0])
+                    tmp2.append(it[1])
+                    print(it[0], it[1])
+            if tmp2:
+                tmp.append(tmp2)
+        result_all.append(tmp)
+
     return JsonResponse({'result': result_all})
