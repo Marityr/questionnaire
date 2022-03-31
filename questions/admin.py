@@ -16,10 +16,18 @@ class PostAdminForm(forms.ModelForm):
 
 class AnswerInline(admin.TabularInline):
     model = Answer
+    extra = 4
 
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [AnswerInline]
+
+    list_filter = (
+        'quiz',
+    )
+    search_fields = (
+        'text',
+    )
 
     form = PostAdminForm
 

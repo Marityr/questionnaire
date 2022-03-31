@@ -33,7 +33,6 @@ class QuizView(View):
     def get(self, request, uid):
         quiz_all = Quiz.objects.all()
         all_block = []
-        # print(len(quiz_all))
         for item in quiz_all:
             quiz = Quiz.objects.get(pk=item.id)
             questions = []
@@ -45,8 +44,8 @@ class QuizView(View):
                 answers.append(str(q))
                 for a in q.get_answers():
                     tmp = []
-                    tmp.append(a.text)
                     tmp.append(a.value_answer)
+                    tmp.append(a.text)
                     answers.append(tmp)
                     pass
                 questions.append(answers)
@@ -60,11 +59,6 @@ class QuizView(View):
 
     def post(self, request):
         if request.is_ajax():
-            # data_ = request.POST
-            # data_.pop('csrfmiddlewaretoken')
-            # data_.pop('button')
-            # print(request.POST)
-            # print(data_)
             pass
 
         return JsonResponse({'text': 'works'})
@@ -93,12 +87,17 @@ def save_quiz(request, uid):
 
 def result_quiz(request, uid):
     result_user = Result_answers.objects.filter(uid=uid)
+    quiz = Quiz.objects.all()
 
-    all_result = []
-    for item in result_user:
-        tmp = []
-        tmp.append(item.questions)
-        tmp.append(item.result)
-        all_result.append(tmp)
-    print(all_result)
-    return JsonResponse({'result': all_result})
+    result_all = []
+    for obj in quiz:
+        res = []
+        res.append(obj.title_block)
+        for item in result_user:
+            tmp = []
+            tmp.append(item.questions)
+            tmp.append(item.result)
+            res.append(tmp)
+        result_all.append(res)
+    # print(all_result)
+    return JsonResponse({'result': result_all})

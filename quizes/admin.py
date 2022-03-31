@@ -16,6 +16,11 @@ class PostAdminForm(forms.ModelForm):
 class QuizAdmin(admin.ModelAdmin):
     model = Quiz
 
+    list_filter = (
+        'title_block',
+        # 'gender',
+    )
+
     form = PostAdminForm
 
 

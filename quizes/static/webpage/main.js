@@ -28,8 +28,8 @@ startQuiz.addEventListener('click', () => {
         <option value="nonbinary">Non-binary</option>
         <option value="transgender">Transgender</option>
         <option value="intersex">Intersex</option>
-        <option value="letmetype">Let me type...</option>
         <option value="iprefernottosay">I prefer not to say</option>
+        <option value="letmetype">Other</option>
     </select>
     <button type="submit" class="btn btn-lg w-100 btn-primary" name="button" id="step-1">Далее</button>
     `  

@@ -37,10 +37,10 @@
                     {{item|safe}}
                 {% endif %}
                 {% if forloop.counter > 3 %}
-                    <div class="row">
+                    <div class="row row-questions">
                     {% for obj in item %}
                         {% if forloop.counter == 1 %}
-                            <label for="">{{obj}}</label>
+                            <label for="" class="question-label">{{obj}}</label>
                         {% endif %}
                         {% if forloop.counter > 1 %}
                             <div class="col-3">
@@ -60,7 +60,24 @@
                 {% comment %} {{item}} {% endcomment %}
             {% endfor %}
                 <div class="row button-row">
-                    <div class="col">
+                <div class="col">
+                {% if forloop.counter > 0 or forloop.counter == 20 or forloop.counter == 21 or forloop.counter == 22  %}
+                <button type="button"
+                class="btn btn-lg btn-primary skipbtn"
+                name="button"
+                id="skip{{ forloop.counter }}"
+                bstep="{{ forloop.counter }}">
+                    SKIP
+                </button>
+                <script>
+                    $('#skip{{ forloop.counter }}').click(function(){
+                        var step = Number($('#skip{{ forloop.counter }}').attr('bstep'));
+                        var progress = Number($('.progress-bar').attr('aria-valuenow'));
+                        console.log(step, progress)
+                        progress_bar(step, progress);
+                    })
+                </script>
+                {% endif %}
                 {% if not forloop.last %}
                     <button type="submit"
                     class="btn btn-lg btn-primary"
@@ -140,6 +157,7 @@
                             console.log(error)
                         },
                     })
+                    window.scrollTo(0, 0);
                     
                 });
             </script>
