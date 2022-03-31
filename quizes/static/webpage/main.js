@@ -24,7 +24,7 @@ startQuiz.addEventListener('click', () => {
     <select class="form-select" aria-label="Default select example" name="male">
         <option selected>Gender</option>
         <option value="male">Male</option>
-        <option value="famele">Famele</option>
+        <option value="famele">Femele</option>
         <option value="nonbinary">Non-binary</option>
         <option value="transgender">Transgender</option>
         <option value="intersex">Intersex</option>

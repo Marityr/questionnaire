@@ -138,3 +138,21 @@ form {
 #result-block {
     padding: 15px;
 }
+
+.low {
+    background: green;
+    color: #fff;
+}
+
+.medium {
+    background: yellow;
+}
+
+.hard {
+    background: red;
+    color: #fff;
+}
+
+p span {
+    float: right;
+}

@@ -29,6 +29,9 @@ class Quiz(models.Model):
     topic = models.CharField(max_length=120)
     legend = models.TextField(verbose_name='Легенда вопроса', blank=True, null=True)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='all')
+    low = models.CharField(max_length=120, verbose_name='low', default=0, blank=True, null=True)
+    medium = models.CharField(max_length=120, verbose_name='medium', default=0, blank=True, null=True)
+    hard = models.CharField(max_length=120, verbose_name='hard', default=0, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.title_block}-{self.topic}"

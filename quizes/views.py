@@ -76,9 +76,22 @@ def save_quiz(request, uid):
             result = {'Answers': 'not add'}
         except Result_answers.DoesNotExist:
             addanswer = Result_answers()
+            colors = Quiz.objects.get(topic=data['name_block'])
+            if int(data['result_block']) > int(colors.hard):
+                print(data['result_block'], colors.hard)
+                color = 'hard'
+            elif int(data['result_block']) > int(colors.medium):
+                print(data['result_block'], colors.medium)
+                color = 'medium'
+            elif int(data['result_block']) > int(colors.low):
+                print(data['result_block'], colors.low)
+                color = 'low'
+            else:
+                color = 'this'
             addanswer.uid = uid
             addanswer.questions = data['name_block']
             addanswer.result = data['result_block']
+            addanswer.color = color
             addanswer.save()
             result = {'Answers': 'add save'}
 
@@ -95,6 +108,7 @@ def result_quiz(request, uid):
         tmp = []
         tmp.append(item.questions)
         tmp.append(item.result)
+        tmp.append(item.color)
         all_result.append(tmp)
 
     result_all = []
@@ -110,7 +124,8 @@ def result_quiz(request, uid):
                 if it[0] == obj.topic:
                     tmp2.append(it[0])
                     tmp2.append(it[1])
-                    print(it[0], it[1])
+                    tmp2.append(it[2])
+                    print(it[0], it[1], it[2])
             if tmp2:
                 tmp.append(tmp2)
         result_all.append(tmp)

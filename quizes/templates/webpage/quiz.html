@@ -46,7 +46,7 @@
                             <div class="col-3">
                             {% for answer in obj %}
                                 {% if forloop.first %}
-                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}">
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{answer}}">
                                 {% endif %}
                                 {% if forloop.last %}
                                 <label for="">{{answer}}</label>
@@ -73,8 +73,9 @@
                     $('#skip{{ forloop.counter }}').click(function(){
                         var step = Number($('#skip{{ forloop.counter }}').attr('bstep'));
                         var progress = Number($('.progress-bar').attr('aria-valuenow'));
-                        console.log(step, progress)
+                        //console.log(step, progress)
                         progress_bar(step, progress);
+                        window.scrollTo(0, 0);
                     })
                 </script>
                 {% endif %}
@@ -215,8 +216,9 @@
                         delete el[0]
                         const resultAnswers = document.getElementById('resultanswers')
                         el.forEach(elements =>{
+                            console.log(elements)
                             resultBlock.innerHTML += `
-                                <p class="">${elements[0]} <span>${elements[1]}</span></p>
+                                <p class="${elements[2]}">${elements[0]} <span>${elements[1]}</span></p>
                         `     
                         })
                                    

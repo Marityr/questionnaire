@@ -60,6 +60,7 @@ class Result_answers(models.Model):
     uid = models.CharField(max_length=200)
     questions = models.CharField(max_length=500)
     result = models.CharField(max_length=20)
+    color = models.CharField(max_length=200, default='notcolor', blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.uid)
