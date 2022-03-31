@@ -46,7 +46,7 @@
                             <div class="col-3">
                             {% for answer in obj %}
                                 {% if forloop.first %}
-                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required checked{% endif %}{% endfor %} value="{{answer}}">
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}">
                                 {% endif %}
                                 {% if forloop.last %}
                                 <label for="">{{answer}}</label>
