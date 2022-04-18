@@ -1,5 +1,7 @@
 body {
     background: #FFF2E3;
+    max-width: 750px;
+    margin: 0 auto;
 }
 
 .btn-outline-info {
@@ -9,7 +11,7 @@ body {
 
 .block-main {
     position: relative;
-    max-width: 750px;
+    max-width: 100%;
     background: #fff;
     padding: 20px;
     -webkit-box-shadow: 0px 5px 10px 2px rgb(34 60 80 / 20%);
@@ -17,8 +19,14 @@ body {
     box-shadow: 0px 5px 10px 2px rgb(34 60 80 / 20%);
     padding-bottom: 30px;
     text-align: left;
-    margin: 100px auto;
     border-top: 5px solid #000;
+    height: calc(100vh - 20vh);
+}
+
+.block-main > form {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 95%;
 }
 
 .home-button {
@@ -28,6 +36,21 @@ body {
 
 button span {
     background: #fdf2e3;
+}
+
+#result {
+    overflow-y: auto;
+    height: 95%;
+}
+
+.resblock {
+    background: #e5e5e5;
+    padding: 5px 20px;
+    margin-bottom: 5px;
+}
+
+.causep {
+    padding: 0 0 0 10px;
 }
 
 .home-button button{
@@ -63,8 +86,13 @@ button.skipbtn {
 }
 
 h1 {
-    border-left: 5px solid;
-    padding-left: 15px;
+    /* border-left: 5px solid;
+    padding-left: 15px; */
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #000;
 }
 
 p {
@@ -116,7 +144,7 @@ button {
 }
 
 form {
-    display: none;
+    /* display: none; */
 }
 
 .result {
@@ -155,4 +183,23 @@ form {
 
 p span {
     float: right;
+}
+
+.username {
+    text-align: right;
+}
+
+.progress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    font-size: .75rem;
+    background-color: #e9ecef;
+    border-radius: 0;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    left: 0px;
 }

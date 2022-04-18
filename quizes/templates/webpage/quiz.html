@@ -7,6 +7,11 @@
     Опрос
 {% endblock title %}
 {% block content %}
+    <style>
+        form {
+            display: none;
+        }
+    </style>
     <div class="block-main">
         <div class="home-button">
             <a href="/"><button>HOME</button></a>
@@ -28,27 +33,27 @@
             {% csrf_token %}
             {% for item in data  %}
                 {% if forloop.counter == 1 %}
-                    <h1>{{item}}</h1>
+                    {% comment %} <h1>{{item}}</h1> {% endcomment %}
                 {% endif %}
                 {% if forloop.counter == 2 %}
-                    <h4>{{item}}</h4>
+                    <h1>{{item}}</h1>
                 {% endif %}
-                {% if forloop.counter == 3 %}
-                    {{item|safe}}
-                {% endif %}
-                {% if forloop.counter > 3 %}
+                {% if forloop.counter > 2 %}
                     <div class="row row-questions">
                     {% for obj in item %}
                         {% if forloop.counter == 1 %}
                             <label for="" class="question-label">{{obj}}</label>
                         {% endif %}
                         {% if forloop.counter > 1 %}
-                            <div class="col-3">
+                            <div class="col">
                             {% for answer in obj %}
-                                {% if forloop.first %}
-                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}">
+                                {% if forloop.counter == 1 %}
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}"
                                 {% endif %}
-                                {% if forloop.last %}
+                                {% if forloop.counter == 2 %}
+                                    id="{{answer}}" checked>
+                                {% endif %}
+                                {% if forloop.counter == 3 %}
                                 <label for="">{{answer}}</label>
                                 {% endif %}
                             {% endfor %}
@@ -61,25 +66,55 @@
             {% endfor %}
                 <div class="row button-row">
                 <div class="col">
-                {% if forloop.counter == 19 or forloop.counter == 20 or forloop.counter == 21 or forloop.counter == 22  %}
-                <button type="button"
-                class="btn btn-lg btn-primary skipbtn"
-                name="button"
-                id="skip{{ forloop.counter }}"
-                bstep="{{ forloop.counter }}">
-                    SKIP
-                </button>
-                <script>
-                    $('#skip{{ forloop.counter }}').click(function(){
-                        var step = Number($('#skip{{ forloop.counter }}').attr('bstep'));
-                        var progress = Number($('.progress-bar').attr('aria-valuenow'));
-                        //console.log(step, progress)
-                        progress_bar(step, progress);
-                        window.scrollTo(0, 0);
-                    })
-                </script>
-                {% endif %}
+                
+                {% comment %} {% if forloop.counter == 19 or forloop.counter == 20 or forloop.counter == 21 or forloop.counter == 22  %} {% endcomment %}
+                
+                {% comment %} {% endif %} {% endcomment %}
                 {% if not forloop.last %}
+                    <button type="button"
+                    class="btn btn-lg btn-primary skipbtn"
+                    name="button"
+                    id="skip{{ forloop.counter }}"
+                    bstep="{{ forloop.counter }}">
+                        SKIP
+                    </button>
+                    <script>
+                        $('#skip{{ forloop.counter }}').click(function(){
+                            var step = Number($('#skip{{ forloop.counter }}').attr('bstep'));
+                            var progress = Number($('.progress-bar').attr('aria-valuenow'));
+                            //console.log(step, progress)
+                            progress_bar(step, progress);
+                            window.scrollTo(0, 0);
+                        })
+                    </script>
+                    {% if not forloop.first %}
+                    <button type="button"
+                        class="btn btn-lg btn-primary"
+                        id="back-{{ forloop.counter }}"
+                        bstep="{{ forloop.counter }}">
+                            BACK
+                    </button>
+                    <script>
+                        $('#back-{{ forloop.counter }}').click(function(){
+                            var step = Number($('#back-{{ forloop.counter }}').attr('bstep'));
+                            var progress = Number($('.progress-bar').attr('aria-valuenow'));
+                            var all_step = Number($('#result').attr('all-step'))
+                            console.log(all_step)
+                
+                            step_bar = 100 / all_step
+                
+                            console.log(step)
+                
+                
+                            $('.step-' + step + '').removeClass('form-active');
+                            $('.step-' + (step - 1) + '').addClass('form-active');
+                            $('.progress-bar').attr('style', 'width: ' + (progress - step_bar) + '%');
+                            $('.progress-bar').attr('aria-valuenow', (progress - step_bar));
+                
+                            window.scrollTo(0, 0);
+                        })
+                    </script>
+                    {% endif %}
                     <button type="submit"
                     class="btn btn-lg btn-primary"
                     name="button"
@@ -89,6 +124,32 @@
                     </button>
                 {% endif %}
                 {% if forloop.last %}
+                    <button type="button"
+                        class="btn btn-lg btn-primary"
+                        id="back-{{ forloop.counter }}"
+                        bstep="{{ forloop.counter }}">
+                            BACK
+                    </button>
+                    <script>
+                        $('#back-{{ forloop.counter }}').click(function(){
+                            var step = Number($('#back-{{ forloop.counter }}').attr('bstep'));
+                            var progress = Number($('.progress-bar').attr('aria-valuenow'));
+                            var all_step = Number($('#result').attr('all-step'))
+                            console.log(all_step)
+                
+                            step_bar = 100 / all_step
+                
+                            console.log(step)
+                
+                
+                            $('.step-' + step + '').removeClass('form-active');
+                            $('.step-' + (step - 1) + '').addClass('form-active');
+                            $('.progress-bar').attr('style', 'width: ' + (progress - step_bar) + '%');
+                            $('.progress-bar').attr('aria-valuenow', (progress - step_bar));
+                
+                            window.scrollTo(0, 0);
+                        })
+                    </script>
                     <button type="submit"
                     class="btn btn-lg btn-primary resbtn"
                     name="button"
@@ -114,10 +175,12 @@
                     data_form['csrfmiddlewaretoken'] = csrf[0].value
                 
                     result_block = 0
+                    var cuase_block = new Array();
                     elements.forEach(el => {
                         if (el.checked) {
                             data[el.name] = el.value
                             result_block += Number(el.value)
+                            cuase_block.push(el.id)
                         } else {
                             if (!data[el.name]) {
                                 data[el.name] = null
@@ -131,8 +194,9 @@
                         }
                     })
 
-                    data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h4').text()
+                    data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h1').text()
                     data_form['result_block'] = result_block
+                    data_form['cuase_block'] = cuase_block.join()
 
                     function revie(e) {
                         elements.forEach(el => {
@@ -168,6 +232,7 @@
                 <div class="row" id="result-block">
 
                 </div>
+                
             </div>
             <script>
                 var step = Number({{ forloop.counter }});
@@ -187,6 +252,8 @@
             console.log(all_step)
 
             step_bar = 100 / all_step
+
+            console.log(step_bar)
 
 
             $('.step-' + step + '').removeClass('form-active');
@@ -208,9 +275,23 @@
                     result = response.result
                     console.log(result)
                     const resultBlock = document.getElementById('result-block')
+                    
+                    resultBlock.innerHTML += `
+                                <div class="row resblock">
+                                    <div class="col-6">
+                                        
+                                    </div>
+                                    <div class="col-2">
+                                        
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        Causes
+                                    </div>
+                                </div>
+                            `
+
                     result.forEach(el => {
-                        resultBlock.innerHTML += `
-                                <h2>${el[0]}</h2>
+                        resultBlock.innerHTML += `                            
                                 <div id="resultanswers"></div>
                         `
                         delete el[0]
@@ -218,7 +299,17 @@
                         el.forEach(elements =>{
                             console.log(elements)
                             resultBlock.innerHTML += `
-                                <p class="${elements[2]}">${elements[0]} <span>${elements[1]}</span></p>
+                                <div class="row resblock">
+                                    <div class="col-6">
+                                        ${elements[0]}
+                                    </div>
+                                    <div class="col-2">
+                                        ${elements[1]}
+                                    </div>
+                                    <div class="col-4">
+                                        ${elements[3]}
+                                    </div>
+                                </div>
                         `     
                         })
                                    

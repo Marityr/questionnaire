@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% comment %} {{table}} {% endcomment %}
+    {% for block in table %}
+        {% for question in block %}
+            {% if forloop.counter == 1 %}
+                <h2>{{question}}</h2> 
+            {% endif %}
+            {% if forloop.counter > 1 %}
+                {% for answer in question  %}
+                    {% if forloop.counter == 1 %}
+                        <b>{{answer}}</b> <br>
+                    {% endif %}
+                    {% if forloop.counter > 1 %}
+                        {{answer}} <br>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% endfor %} 
+</body>
+</html>

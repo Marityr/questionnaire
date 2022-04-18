@@ -1,6 +1,5 @@
 from tabnanny import verbose
 from django.db import models
-from quizes.models import Quiz
 
 import uuid
 
@@ -28,6 +27,7 @@ class Answer(models.Model):
 
     text = models.CharField(max_length=200)
     value_answer = models.CharField(max_length=200)
+    cause = models.CharField(max_length=200, blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -59,6 +59,7 @@ class Result_answers(models.Model):
     
     uid = models.CharField(max_length=200)
     questions = models.CharField(max_length=500)
+    cause = models.TextField(blank=True, null=True)
     result = models.CharField(max_length=20)
     color = models.CharField(max_length=200, default='notcolor', blank=True, null=True)
 

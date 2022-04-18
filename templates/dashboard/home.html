@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="block-main">
+    <div>
+        <h2 class="text-center">Hello {{ user.first_name }}!</h2>
+        <a class="btn btn-primary btn-lg w-100 start-question" href="">START QUESTIONS</a>
+        <hr>
+        <h3>Info Profile</h3>
+        {% if userdata == 'none' %}
+            <a href="{% url 'userdata:profiles'%}">Add info</a>
+        {% endif %}
+        {% if userdata != 'none' %}
+            Name: {{userdata.username}} <br>
+            Age: {{userdata.age}} <br>
+
+            <a href="{% url 'userdata:profiles'%}">edit profile</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'nwe/main.js' %}" defer></script>
+{% endblock scripts %}
+
+{% block title %}
+    Опрос
+{% endblock title %}
+
+{% block content %}
+    <div class="block-main">
+        <div id="header-block">
+            <h1>Title block</h1>
+        </div>
+        <hr>
+        <div id="body-block">
+            <p>Terms of Service Before using the checkup, please read Terms of Service. Remember that: Checkup is not a diagnosis. Checkup is for informational purposes and is not a qualified medical opinion.Do not use in emergencies. In case of health emergency, call your local emergency number immediately.Your data is safe. Information that you provide is anonymous and not shared with anyone.OK   I read and accept Terms of Service and Privacy Policy OK   I agree to the processing of my health information for the purpose of performing the interview.</p>
+        </div>
+        <div id="button-block">
+            <button class="btn btn-lg w-100 btn-primary" id="activate-test">Next</button>
+        </div>
+        <div class="footer-block">
+            
+        </div>
+    </div>
+    
+{% endblock content %}
