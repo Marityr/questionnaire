@@ -18,5 +18,5 @@ class UserData(models.Model):
         verbose_name_plural = "Данные пользователtq"
 
     def __str__(self):
-        return self.username
+        return f'{self.id}'
 

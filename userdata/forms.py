@@ -1,4 +1,4 @@
-from dataclasses import fields
+# from dataclasses import fields
 from secrets import choice
 from django import forms
 from django.forms import ModelForm, TextInput, Textarea, FileInput, widgets, DateField
@@ -9,18 +9,17 @@ class UserDataForm(ModelForm):
     
     class Meta:
         model = UserData
-        fields = [  
-            'age',
-            'gender',
-            'massa',
-            'purpose',
-            'decision',
-            'problem',
-        ]
+        fields = '__all__'
+        exclude = ['username']
         queryset= [
             'age',
         ]
         widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'type': 'text',
+                'placeholder': 'Username',
+            }),
             'age': forms.TextInput(attrs={
                 'class': 'form-control',
                 'type': 'text',
@@ -48,7 +47,7 @@ class UserDataForm(ModelForm):
             }),
             'problem': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': '5',
-                'placeholder': 'Which of health problems do you have? 1. ЖКТ (чекбокс) 2. Кишечник (чекбокс) 3... (чекбоксы)'
+                'rows': '3',
+                'placeholder': 'Which of health problems do you have?'
             }),
         }

@@ -30,8 +30,23 @@ class FormProfile(View):
         userdata = UserData()
         if request.method == 'POST':
             form = UserDataForm(request.POST)
-            if form.is_valid():
-                print(form)
-                form.save()
+            try:
+                userdata = UserData.objects.get(username=request.user)
+                userdata.age = request.POST['age']
+                userdata.gender = request.POST['gender']
+                userdata.massa = request.POST['massa']
+                userdata.purpose = request.POST['purpose']
+                userdata.decision = request.POST['decision']
+                userdata.problem = request.POST['problem']
+                userdata.save()
+            except UserData.DoesNotExist:
+                userdata.username = request.user
+                userdata.age = request.POST['age']
+                userdata.gender = request.POST['gender']
+                userdata.massa = request.POST['massa']
+                userdata.purpose = request.POST['purpose']
+                userdata.decision = request.POST['decision']
+                userdata.problem = request.POST['problem']
+                userdata.save()
 
         return redirect('quizes:home')

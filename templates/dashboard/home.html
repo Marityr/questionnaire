@@ -11,8 +11,13 @@
             <a href="{% url 'userdata:profiles'%}">Add info</a>
         {% endif %}
         {% if userdata != 'none' %}
-            Name: {{userdata.username}} <br>
-            Age: {{userdata.age}} <br>
+            Username: <b>{{userdata.username}} </b><br>
+            Age:<b> {{userdata.age}}</b> <br>
+            Male/female:<b> {{userdata.gender}} </b><br>
+            Weight: <b>{{userdata.massa}}</b> <br>
+            What are your goals on the way to improve your health?<b> {{userdata.purpose}}</b> <br>
+            Why did you decide to get screened by Welly:<b> {{userdata.decision}}</b> <br>
+            Which of health problems do you have?: <b>{{userdata.problem}}</b> <br>
 
             <a href="{% url 'userdata:profiles'%}">edit profile</a>
         {% endif %}
