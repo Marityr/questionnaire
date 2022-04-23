@@ -3,6 +3,8 @@ from secrets import choice
 from django import forms
 from django.forms import ModelForm, TextInput, Textarea, FileInput, widgets, DateField
 from .models import UserData
+from django.forms import MultipleChoiceField, ChoiceField, Form
+
 
 
 class UserDataForm(ModelForm):
@@ -11,9 +13,6 @@ class UserDataForm(ModelForm):
         model = UserData
         fields = '__all__'
         exclude = ['username']
-        queryset= [
-            'age',
-        ]
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -45,9 +44,17 @@ class UserDataForm(ModelForm):
                 'type': 'text',
                 'placeholder': 'Why did you decide to get screened by Welly?'
             }),
-            'problem': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': '3',
-                'placeholder': 'Which of health problems do you have?'
+            'problem': forms.CheckboxInput(attrs={
+                'name': 'problem',
+                'class': '',
+            }),
+            'problem_two': forms.CheckboxInput(attrs={
+                'name': 'problem_two',
+
+                'class': '',
+            }),
+            'problem_fre': forms.CheckboxInput(attrs={
+                'name': 'problem_fre',
+                'class': '',
             }),
         }

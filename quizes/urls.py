@@ -8,6 +8,8 @@ from .views import (
     result_quiz,
     UserUid,
     Dashboard,
+    LastPage,
+    ResulrPage,
 )
 
 app_name = 'quizes'
@@ -19,5 +21,7 @@ urlpatterns = [
     path('home/<uid>/save/', save_quiz, name='quiz-save'),
     path('home/<uid>/result/', result_quiz, name='quiz-result'),
     path('user-data/<str:usermane>/', UserUid.as_view(), name='user-data'),
+    path('final/', LastPage.as_view(), name='lastpage'),
+    path('resultpage/', ResulrPage.as_view(), name='resultpage'),
 ]
 

@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="block-main">
-        <h2 class="text-center">Profile</h2>
-        <hr>
+        <h2 class="text-center">Who is the checkup for?</h2>
         <form action="" method="POST">
             {% csrf_token %}
             <div class="mb-3">{{ form.username }}</div>
@@ -15,4 +14,9 @@
             <button type="submit" class="btn btn-primary tex-right w-100 btn-lg">SAVE</button>
         </form>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#example-getting-started').multiselect();
+        });
+    </script>
 {% endblock %}

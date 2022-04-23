@@ -31,6 +31,20 @@
             <form id="body-form-{{ forloop.counter }}" class="step-{{ forloop.counter }} {% if forloop.counter == 1 %}form-active{% endif %}"
             step="{{ forloop.counter }}">
             {% csrf_token %}
+            {% if forloop.counter == 6 %}
+                <div class="row block_paste paste6">
+                    <h2>Block</h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                    <a class="btn btn-lg btn-primary" id="paste6">NEXT</a>
+                </div>
+            {% endif %}
+            {% if forloop.counter == 11 %}
+                <div class="row block_paste paste11">
+                    <h2>Block</h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                    <a class="btn btn-lg btn-primary" id="paste11">NEXT</a>
+                </div>
+            {% endif %}
             {% for item in data  %}
                 {% if forloop.counter == 1 %}
                     {% comment %} <h1>{{item}}</h1> {% endcomment %}
@@ -38,7 +52,10 @@
                 {% if forloop.counter == 2 %}
                     <h1>{{item}}</h1>
                 {% endif %}
-                {% if forloop.counter > 2 %}
+                {% if forloop.counter == 3 %}
+                    {{item|safe}}
+                {% endif %}
+                {% if forloop.counter > 3 %}
                     <div class="row row-questions">
                     {% for obj in item %}
                         {% if forloop.counter == 1 %}
@@ -89,7 +106,7 @@
                     </script>
                     {% if not forloop.first %}
                     <button type="button"
-                        class="btn btn-lg btn-primary"
+                        class="btn btn-lg btn-primary bbts"
                         id="back-{{ forloop.counter }}"
                         bstep="{{ forloop.counter }}">
                             BACK
@@ -125,7 +142,7 @@
                 {% endif %}
                 {% if forloop.last %}
                     <button type="button"
-                        class="btn btn-lg btn-primary"
+                        class="btn btn-lg btn-primary bbts"
                         id="back-{{ forloop.counter }}"
                         bstep="{{ forloop.counter }}">
                             BACK
@@ -277,6 +294,7 @@
                     const resultBlock = document.getElementById('result-block')
                     
                     resultBlock.innerHTML += `
+                            <div class="col-12">
                                 <div class="row resblock">
                                     <div class="col-6">
                                         
@@ -288,6 +306,7 @@
                                         Causes
                                     </div>
                                 </div>
+                            </div>
                             `
 
                     result.forEach(el => {
@@ -299,7 +318,8 @@
                         el.forEach(elements =>{
                             console.log(elements)
                             resultBlock.innerHTML += `
-                                <div class="row resblock">
+                            <div class="col-12">
+                                <div class="row resblock ${elements[2]}">
                                     <div class="col-6">
                                         ${elements[0]}
                                     </div>
@@ -310,8 +330,23 @@
                                         ${elements[3]}
                                     </div>
                                 </div>
-                        `     
+                            </div>
+                            `   
                         })
+                        resultBlock.innerHTML += `
+                            <div class=col-12">
+                                <div class="row resblock">
+                                    <div class=col-12">
+                                        <br><br>
+                                        <p>We have uncovered the possible root causes of the health problems You can receive a health protocol with personalised roadmaps (options of the next steps) to your healthier future.</p>
+                                        <p> A health protocol will include extensive health assessment report and personalized recommendations on:<br> 1.Nutrition <br>2.Mind<br> 3.Movement<br> 4.Sleep</p>
+                                        <br><br>
+                                        <a href="{% url 'quizes:lastpage' %}" class="btn btn-lg w-100 btn-danger">Get a personalised health protocol for $150/year</a>
+                                        <br><br>
+                                    </div>
+                                </div>
+                            </div>
+                            `  
                                    
                     })
 
@@ -321,5 +356,15 @@
                 },
             })
         }
+    </script>
+
+    <script>
+        $('#paste6').click(function(){
+            $('.paste6').remove()
+        })
+        $('#paste11').click(function(){
+            $('.paste11').remove()
+        })
+        $('#body-form-3 input').removeAttr("required")
     </script>
 {% endblock content %}

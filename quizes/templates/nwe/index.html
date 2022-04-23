@@ -16,10 +16,19 @@
         </div>
         <hr>
         <div id="body-block">
-            <p>Terms of Service Before using the checkup, please read Terms of Service. Remember that: Checkup is not a diagnosis. Checkup is for informational purposes and is not a qualified medical opinion.Do not use in emergencies. In case of health emergency, call your local emergency number immediately.Your data is safe. Information that you provide is anonymous and not shared with anyone.OK   I read and accept Terms of Service and Privacy Policy OK   I agree to the processing of my health information for the purpose of performing the interview.</p>
+            <p style="background: none;">Terms of Service <br> Before using the checkup, please read Terms of Service. Remember that:</p>
+                <ul>
+                    <li>Checkup is not a diagnosis. Checkup is for informational purposes and is not a qualified medical opinion.</li>
+                    <li>Do not use in emergencies. In case of health emergency, call your local emergency number immediately.</li>
+                    <li>Your data is safe. Information that you provide is anonymous and not shared with anyone.</li>
+                </ul>
+
+                <p style="background: none;">OK   I read and accept <a href="{% static 'uploads/politic.pdf'%}">Terms</a> of Service and <a href="{% static 'uploads/politic.pdf'%}">Privacy Policy</a>
+                <br>OK   I agree to the processing of my health information for the purpose of performing the interview.</p>
         </div>
-        <div id="button-block">
+        <div id="button-block text-center">
             <button class="btn btn-lg w-100 btn-primary" id="activate-test">Next</button>
+            <a href="{% static 'uploads/politic.pdf'%}" style="display: block;width: 100%;text-align: center;">Privacy Policy</a>
         </div>
         <div class="footer-block">
             

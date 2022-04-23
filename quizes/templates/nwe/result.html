@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+    <script src="{% static 'webpage/quiz.js' %}" defer></script>
+{% endblock scripts %}
+{% block title %}
+    Опрос
+{% endblock title %}
+{% block content %}
+    <style>
+        form {
+            display: none;
+        }
+    </style>
+    <div class="block-main">
+        <div class="home-button">
+            <a href="/"><button>HOME</button></a>
+            <button>ID - <span>{{uid}}-</span></button>
+        </div>
+        <div id="header-block">
+        </div>
+        <div id="body-block">
+            <div id="result-block"></div>
+        </div>
+        <div id="button-block"></div>
+        <div class="footer-block"></div>
+    </div>
+    <script>
+        function result(){
+            const csrf = document.getElementsByName('csrfmiddlewaretoken')
+            const url = window.location.href
+            const datat = {}
+            const resultBlock = document.getElementById('button-block')
+            datat['csrfmiddlewaretoken'] = '{{ csrf_token }}'
+            $.ajax({
+                type: 'POST',
+                url: `/home/{{uid}}/result/`,
+                data: datat,
+                success: function (response) {
+                    result = response.result
+                    console.log(result)
+                    const resultBlock = document.getElementById('result-block')
+                    
+                    resultBlock.innerHTML = `
+                            <div class="col-12">
+                                <div class="row resblock">
+                                    <div class="col-6">
+                                        
+                                    </div>
+                                    <div class="col-2">
+                                        
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        Causes
+                                    </div>
+                                </div>
+                            </div>
+                            `
+
+                    result.forEach(el => {
+                        resultBlock.innerHTML += `                            
+                                <div id="resultanswers"></div>
+                        `
+                        delete el[0]
+                        const resultAnswers = document.getElementById('resultanswers')
+                        el.forEach(elements =>{
+                            console.log(elements)
+                            resultBlock.innerHTML += `
+                            <div class="col-12">
+                                <div class="row resblock ${elements[2]}">
+                                    <div class="col-6">
+                                        ${elements[0]}
+                                    </div>
+                                    <div class="col-2">
+                                        ${elements[1]}
+                                    </div>
+                                    <div class="col-4">
+                                        ${elements[3]}
+                                    </div>
+                                </div>
+                            </div>
+                            `   
+                        })
+                                   
+                    })
+
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+            })
+        }
+    </script>
+
+    <script>
+        result()
+    </script>
+{% endblock content %}

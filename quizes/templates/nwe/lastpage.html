@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+    <script src="{% static 'nwe/main.js' %}" defer></script>
+{% endblock scripts %}
+{% block title %}
+    Опрос
+{% endblock title %}
+{% block content %}
+    <div class="block-main">
+        <div id="header-block"></div>
+        <hr>
+        <div id="body-block">
+            <p>
+                Thanks for reaching out!
+                <br>
+                <br>
+                We will provide you with a demo of Welly after finishing it.
+                <br>
+                <br>
+                We are very grateful to you for passing our checkup. Please, write a feedback, so we can make our product better for you.
+            </p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <h2></h2>
+                    <label for="exampleFormControlSelect1">Оцените от 1 до 10 удовлетворенность результатами тестирования	1-10</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option value="">
+                            1
+                        </option>
+                        <option value="">
+                            2
+                        </option>
+                        <option value="">
+                            3
+                        </option>
+                        <option value="">
+                            4
+                        </option>
+                        <option value="">
+                            5
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Что вам понравилось больше всего?</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Что вам не понравилось больше всего?</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary w-100">Send feedback</button>
+            </form>
+        </div>
+        <div id="button-block"></div>
+        <div class="footer-block"></div>
+    </div>
+{% endblock content %}

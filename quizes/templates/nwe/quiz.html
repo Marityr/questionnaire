@@ -38,11 +38,7 @@
                 {% csrf_token %}
                 {% for item in data  %}
                     {% if forloop.counter == 2 %}<h1>{{ item }}</h1>{% endif %}
-                    {% if forloop.counter > 2 %}
-                        <div class="row row-questions">
-                            {{item}}
-                        </div>
-                    {% endif %}
+                    {% if forloop.counter > 3 %}<div class="row row-questions">{{ item }}</div>{% endif %}
                 {% endfor %}
                 <div class="row button-row">
                     <div class="col">
@@ -118,7 +114,6 @@
                             step_bar = 100 / all_step
                 
                             console.log(step)
-                
                 
                             $('.step-' + step + '').removeClass('form-active');
                             $('.step-' + (step - 1) + '').addClass('form-active');
@@ -264,15 +259,9 @@
                             resultBlock.innerHTML += `
                                 <p>
                                     <div class="row">
-                                        <div class="col">
-                                            ${elements[0]}
-                                        </div>
-                                        <div class="col">
-                                            ${elements[1]}
-                                        </div>
-                                        <div class="col">
-                                            ${elements[3]}
-                                        </div>
+                                        <div class="col">${elements[0]}</div>
+                                        <div class="col">${elements[1]}</div>
+                                        <div class="col">${elements[3]}</div>
                                     </div>
                                 </p>
                         `     

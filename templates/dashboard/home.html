@@ -4,23 +4,32 @@
 <div class="block-main">
     <div>
         <h2 class="text-center">Hello {{ user.first_name }}!</h2>
-        <a class="btn btn-primary btn-lg w-100 start-question" href="">START QUESTIONS</a>
-        <hr>
-        <h3>Info Profile</h3>
-        {% if userdata == 'none' %}
-            <a href="{% url 'userdata:profiles'%}">Add info</a>
-        {% endif %}
-        {% if userdata != 'none' %}
-            Username: <b>{{userdata.username}} </b><br>
-            Age:<b> {{userdata.age}}</b> <br>
-            Male/female:<b> {{userdata.gender}} </b><br>
-            Weight: <b>{{userdata.massa}}</b> <br>
-            What are your goals on the way to improve your health?<b> {{userdata.purpose}}</b> <br>
-            Why did you decide to get screened by Welly:<b> {{userdata.decision}}</b> <br>
-            Which of health problems do you have?: <b>{{userdata.problem}}</b> <br>
-
-            <a href="{% url 'userdata:profiles'%}">edit profile</a>
-        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">{{ form.username }}</div>
+            <div class="mb-3">{{ form.age }}</div>
+            <div class="mb-3">{{ form.gender }}</div>
+            <div class="mb-3">{{ form.massa }}</div>
+            <div class="mb-3">{{ form.purpose }}</div>
+            <div class="mb-3">{{ form.decision }}</div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        {{ form.problem }}
+                        <label for="">Proble1</label>
+                    </div>
+                    <div class="col">
+                        {{ form.problem_two }}
+                        <label for="">Proble2</label>
+                    </div>
+                    <div class="col">
+                        {{ form.problem_fre }}
+                        <label for="">Proble3</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary tex-right w-100 btn-lg">START QUESTIONS</button>
+        </form>
     </div>
 </div>
 {% endblock %}

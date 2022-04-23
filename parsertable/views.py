@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views import View
+from requests import Response
 
 from quizes.models import BlockQuiz, Quiz, Question, Answer
 
@@ -15,7 +16,7 @@ class ParserTable(View):
     def get(self, request):
         template = 'parsertable/index.html'
 
-        book = openpyxl.open("media/WellySurvey.xlsx", read_only=True)
+        book = openpyxl.open("media/WellySurvey2.xlsx", read_only=True)
         sheet = book.active
 
         i = 0
@@ -45,32 +46,32 @@ class ParserTable(View):
             if row[8].value != None:
                 ansvers_cause = []
                 ansvers_cause.append(row[8].value)
-                ansvers_cause.append(row[13].value)
+                ansvers_cause.append('0')
                 answers.append(ansvers_cause)
             if row[9].value != None:
                 ansvers_cause = []
                 ansvers_cause.append(row[9].value)
-                ansvers_cause.append(row[15].value)
+                ansvers_cause.append(f'{row[13].value},{row[15].value},{row[17].value},{row[19].value}')
                 answers.append(ansvers_cause)
             if row[10].value != None:
                 ansvers_cause = []
                 ansvers_cause.append(row[10].value)
-                ansvers_cause.append(row[17].value)
+                ansvers_cause.append(f'{row[13].value},{row[15].value},{row[17].value},{row[19].value}')
                 answers.append(ansvers_cause)
             if row[11].value != None:
                 ansvers_cause = []
                 ansvers_cause.append(row[11].value)
-                ansvers_cause.append(row[19].value)
+                ansvers_cause.append(f'{row[13].value},{row[15].value},{row[17].value},{row[19].value}')
                 answers.append(ansvers_cause)
             if len(answers) > 0:
                 question.append(answers)
 
         print(table[6])
 
-        # block = BlockQuiz()
-        # quiz = Quiz()
-        # questions = Question()
-        # answer = Answer()
+        block = BlockQuiz()
+        quiz = Quiz()
+        questions = Question()
+        answer = Answer()
 
         iter = 0
         titles = 'ALL BLOCK'
@@ -85,7 +86,7 @@ class ParserTable(View):
                     quiz.title_block = BlockQuiz.objects.get(title=titles)
                     tmp_topic = item_block[i]
                     # quiz.save()
-                    print('Quiz -', item_block[i])
+                    # print('Quiz -', item_block[i])
                 if i > 0 :
                     for j in range(len(item_block[i])):
                         if j == 0:
@@ -94,7 +95,7 @@ class ParserTable(View):
                             temp_text = item_block[i][j]
                             questions.quiz = Quiz.objects.filter(topic=tmp_topic)[0]
                             # questions.save()
-                            print('##### Questions -', item_block[i][j])
+                            # print('##### Questions -', item_block[i][j])
                         if j > 0:
                             for d in range(len(item_block[i][j])):
                                 answers = Answer()
@@ -102,8 +103,8 @@ class ParserTable(View):
                                 answers.text = item_block[i][j][d][0]
                                 answers.cause = str(item_block[i][j][d][1])
                                 answers.value_answer = d
-                                # answers.save()
-                                print('######### Answer -', item_block[i][j][d][1])
+                                answers.save()
+                                # print('######### Answer -', item_block[i][j][d][1])
 
 
 
@@ -115,3 +116,30 @@ class ParserTable(View):
             if not all(col.value is None for col in row):
                 rows += 1
         return rows
+
+
+class Problem_add(View):
+
+    def get(self, request):
+        template = 'parsertable/problem.html'
+        book = openpyxl.open("media/WellySurvey2.xlsx", read_only=True)
+        sheet = book.active
+        
+        i = 0
+        table = []
+        question = []
+        for row in sheet.rows:
+            if i == 0:
+                i += 1
+                continue
+            # блоки вопросов
+            if row[1].value != None:
+                tmp = []
+                question.append(row[7].value)
+                question.append(row[8].value)
+
+
+        context = {
+            'table': question,
+        }
+        return render(request, template, context)

@@ -41,6 +41,7 @@ button span {
 #result {
     overflow-y: auto;
     height: 95%;
+    overflow-x: hidden;
 }
 
 .resblock {
@@ -59,6 +60,7 @@ button span {
     background: #fff;
     border-bottom: 2px solid #000;
     box-shadow: 0px 0px 3px #ddd;
+    display: none;
 }
 
 button[type="submit"] {
@@ -202,4 +204,46 @@ p span {
     margin: 0;
     padding: 0;
     left: 0px;
+}
+
+button[type="button"].bbts {
+    background: #0a58ca;
+    border-radius: 0;
+}
+
+.block_paste {
+    position: sticky;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0px;
+    background: #fff;
+    z-index: 999;
+    padding-top: 70px;
+    display: block;
+}
+
+
+@media screen and (max-width: 800px) {
+    .block-main {
+        width: 100%;
+        height: 100%;
+    }
+
+    .row-questions > .col {
+        flex: auto!important;
+    }
+    label {
+        display: revert;
+        top: -1px;
+        position: relative;
+    }
+    h1 {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #000;
+        z-index: 99;
+    }
 }
