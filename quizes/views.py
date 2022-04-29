@@ -252,11 +252,6 @@ def result_quiz(request, uid):
         tmp.append(item.questions)
         tmp.append(item.result)
         tmp.append(item.color)
-        print('##############################################')
-        print(item.causes)
-        print('----------------------------------------------')
-        print(item.questions, ' -- ', list_cause(item.causes))
-        print('##############################################')
         tmp.append(list_cause(item.causes))
         all_result.append(tmp)
 

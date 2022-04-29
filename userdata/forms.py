@@ -57,4 +57,52 @@ class UserDataForm(ModelForm):
                 'name': 'problem_fre',
                 'class': '',
             }),
+            'problem_4': forms.CheckboxInput(attrs={
+                'name': 'problem_4',
+                'class': '',
+            }),
+            'problem_5': forms.CheckboxInput(attrs={
+                'name': 'problem_5',
+                'class': '',
+            }),
+            'problem_6': forms.CheckboxInput(attrs={
+                'name': 'problem_6',
+                'class': '',
+            }),
+            'problem_7': forms.CheckboxInput(attrs={
+                'name': 'problem_7',
+                'class': '',
+            }),
+            'problem_8': forms.CheckboxInput(attrs={
+                'name': 'problem_8',
+                'class': '',
+            }),
+            'problem_9': forms.CheckboxInput(attrs={
+                'name': 'problem_9',
+                'class': '',
+            }),
+            'problem_10': forms.CheckboxInput(attrs={
+                'name': 'problem_10',
+                'class': '',
+            }),
+            'problem_11': forms.CheckboxInput(attrs={
+                'name': 'problem_11',
+                'class': '',
+            }),
+            'problem_12': forms.CheckboxInput(attrs={
+                'name': 'problem_12',
+                'class': '',
+            }),
+            'problem_13': forms.CheckboxInput(attrs={
+                'name': 'problem_13',
+                'class': '',
+            }),
+            'problem_14': forms.CheckboxInput(attrs={
+                'name': 'problem_14',
+                'class': '',
+            }),
+            'problem_15': forms.CheckboxInput(attrs={
+                'name': 'problem_15',
+                'class': '',
+            }),
         }

@@ -2,6 +2,7 @@ body {
     background: #FFF2E3;
     max-width: 750px;
     margin: 0 auto;
+    position: relative;
 }
 
 .btn-outline-info {
@@ -20,7 +21,7 @@ body {
     padding-bottom: 30px;
     text-align: left;
     border-top: 5px solid #000;
-    height: calc(100vh - 20vh);
+    height: 100vh;
 }
 
 .block-main > form {
@@ -223,11 +224,22 @@ button[type="button"].bbts {
     display: block;
 }
 
+header {
+    position: absolute;
+    top: -12px;
+    z-index: 9999;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    left: 0;
+}
+
 
 @media screen and (max-width: 800px) {
     .block-main {
         width: 100%;
-        height: 100%;
+        height: 100vh;
+        overflow-y: auto;
     }
 
     .row-questions > .col {

@@ -20,6 +20,18 @@ class UserData(models.Model):
     problem = models.BooleanField()
     problem_two = models.BooleanField()
     problem_fre = models.BooleanField()
+    problem_4 = models.BooleanField()
+    problem_5 = models.BooleanField()
+    problem_6 = models.BooleanField()
+    problem_7 = models.BooleanField()
+    problem_8 = models.BooleanField()
+    problem_9 = models.BooleanField()
+    problem_10 = models.BooleanField()
+    problem_11 = models.BooleanField()
+    problem_12 = models.BooleanField()
+    problem_13 = models.BooleanField()
+    problem_14 = models.BooleanField()
+    problem_15 = models.BooleanField()
 
     class Meta:
         verbose_name = "Данные пользователя"
