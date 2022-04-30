@@ -81,10 +81,64 @@ class Dashboard(View):
                 userdata.decision = request.POST['decision']
                 if request.POST.get('problem'):
                     userdata.problem = True
+                else:
+                    userdata.problem = False
                 if request.POST.get('problem_two'):
                     userdata.problem_two = True
+                else:
+                    userdata.problem_two = False
                 if request.POST.get('problem_fre'):
                     userdata.problem_fre = True
+                else:
+                    userdata.problem_fre = False
+                if request.POST.get('problem_foo'):
+                    userdata.problem_foo = True
+                else:
+                    userdata.problem_foo = False
+                if request.POST.get('problem_fiv'):
+                    userdata.problem_fiv = True
+                else:
+                    userdata.problem_fiv = False
+                if request.POST.get('problem_sex'):
+                    userdata.problem_sex = True
+                else:
+                    userdata.problem_sex = False
+                if request.POST.get('problem_sev'):
+                    userdata.problem_sev = True
+                else:
+                    userdata.problem_sev = False
+                if request.POST.get('problem_noi'):
+                    userdata.problem_noi = True
+                else:
+                    userdata.problem_noi = False
+                if request.POST.get('problem_ech'):
+                    userdata.problem_ech = True
+                else:
+                    userdata.problem_ech = False
+                if request.POST.get('problem_thn'):
+                    userdata.problem_thn = True
+                else:
+                    userdata.problem_thn = False
+                if request.POST.get('problem_elv'):
+                    userdata.problem_elv = True
+                else:
+                    userdata.problem_elv = False
+                if request.POST.get('problem_lav'):
+                    userdata.problem_lav = True
+                else:
+                    userdata.problem_lav = False
+                if request.POST.get('problem_ulw'):
+                    userdata.problem_ulw = True
+                else:
+                    userdata.problem_ulw = False
+                if request.POST.get('problem_flv'):
+                    userdata.problem_flv = True
+                else:
+                    userdata.problem_flv = False
+                if request.POST.get('problem_fvt'):
+                    userdata.problem_fvt = True
+                else:
+                    userdata.problem_fvt = False
                 userdata.save()
             except UserData.DoesNotExist:
                 userdata = UserData()
@@ -96,10 +150,64 @@ class Dashboard(View):
                 userdata.decision = request.POST['decision']
                 if request.POST.get('problem'):
                     userdata.problem = True
+                else:
+                    userdata.problem = False
                 if request.POST.get('problem_two'):
                     userdata.problem_two = True
+                else:
+                    userdata.problem_two = False
                 if request.POST.get('problem_fre'):
                     userdata.problem_fre = True
+                else:
+                    userdata.problem_fre = False
+                if request.POST.get('problem_foo'):
+                    userdata.problem_foo = True
+                else:
+                    userdata.problem_foo = False
+                if request.POST.get('problem_fiv'):
+                    userdata.problem_fiv = True
+                else:
+                    userdata.problem_fiv = False
+                if request.POST.get('problem_sex'):
+                    userdata.problem_sex = True
+                else:
+                    userdata.problem_sex = False
+                if request.POST.get('problem_sev'):
+                    userdata.problem_sev = True
+                else:
+                    userdata.problem_sev = False
+                if request.POST.get('problem_noi'):
+                    userdata.problem_noi = True
+                else:
+                    userdata.problem_noi = False
+                if request.POST.get('problem_ech'):
+                    userdata.problem_ech = True
+                else:
+                    userdata.problem_ech = False
+                if request.POST.get('problem_thn'):
+                    userdata.problem_thn = True
+                else:
+                    userdata.problem_thn = False
+                if request.POST.get('problem_elv'):
+                    userdata.problem_elv = True
+                else:
+                    userdata.problem_elv = False
+                if request.POST.get('problem_lav'):
+                    userdata.problem_lav = True
+                else:
+                    userdata.problem_lav = False
+                if request.POST.get('problem_ulw'):
+                    userdata.problem_ulw = True
+                else:
+                    userdata.problem_ulw = False
+                if request.POST.get('problem_flv'):
+                    userdata.problem_flv = True
+                else:
+                    userdata.problem_flv = False
+                if request.POST.get('problem_fvt'):
+                    userdata.problem_fvt = True
+                else:
+                    userdata.problem_fvt = False
                 userdata.save()
 
         user_data = User.objects.get(username=request.user)
@@ -126,6 +234,7 @@ class QuizView(View):
             for q in quiz.get_questions():
                 answers = []
                 answers.append(str(q))
+                answers.append(q.legend)
                 for a in q.get_answers():
                     tmp = []
                     tmp.append(a.value_answer)

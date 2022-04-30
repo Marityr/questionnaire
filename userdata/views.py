@@ -29,7 +29,7 @@ class FormProfile(View):
 
         context = {
             'form': form,
-            'userdata': userdata
+            'userdata': userdata,
         }
         
         return render(request, template_name, context)

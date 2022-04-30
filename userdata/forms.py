@@ -57,52 +57,52 @@ class UserDataForm(ModelForm):
                 'name': 'problem_fre',
                 'class': '',
             }),
-            'problem_4': forms.CheckboxInput(attrs={
-                'name': 'problem_4',
+            'problem_foo': forms.CheckboxInput(attrs={
+                'name': 'problem_foo',
                 'class': '',
             }),
-            'problem_5': forms.CheckboxInput(attrs={
-                'name': 'problem_5',
+            'problem_fiv': forms.CheckboxInput(attrs={
+                'name': 'problem_fiv',
                 'class': '',
             }),
-            'problem_6': forms.CheckboxInput(attrs={
-                'name': 'problem_6',
+            'problem_sex': forms.CheckboxInput(attrs={
+                'name': 'problem_sex',
                 'class': '',
             }),
-            'problem_7': forms.CheckboxInput(attrs={
-                'name': 'problem_7',
+            'problem_sev': forms.CheckboxInput(attrs={
+                'name': 'problem_sev',
                 'class': '',
             }),
-            'problem_8': forms.CheckboxInput(attrs={
-                'name': 'problem_8',
+            'problem_ech': forms.CheckboxInput(attrs={
+                'name': 'problem_ech',
                 'class': '',
             }),
-            'problem_9': forms.CheckboxInput(attrs={
-                'name': 'problem_9',
+            'problem_noi': forms.CheckboxInput(attrs={
+                'name': 'problem_noi',
                 'class': '',
             }),
-            'problem_10': forms.CheckboxInput(attrs={
-                'name': 'problem_10',
+            'problem_thn': forms.CheckboxInput(attrs={
+                'name': 'problem_thn',
                 'class': '',
             }),
-            'problem_11': forms.CheckboxInput(attrs={
-                'name': 'problem_11',
+            'problem_elv': forms.CheckboxInput(attrs={
+                'name': 'problem_elv',
                 'class': '',
             }),
-            'problem_12': forms.CheckboxInput(attrs={
-                'name': 'problem_12',
+            'problem_lav': forms.CheckboxInput(attrs={
+                'name': 'problem_lav',
                 'class': '',
             }),
-            'problem_13': forms.CheckboxInput(attrs={
-                'name': 'problem_13',
+            'problem_ulw': forms.CheckboxInput(attrs={
+                'name': 'problem_ulw',
                 'class': '',
             }),
-            'problem_14': forms.CheckboxInput(attrs={
-                'name': 'problem_14',
+            'problem_flv': forms.CheckboxInput(attrs={
+                'name': 'problem_flv',
                 'class': '',
             }),
-            'problem_15': forms.CheckboxInput(attrs={
-                'name': 'problem_15',
+            'problem_fvt': forms.CheckboxInput(attrs={
+                'name': 'problem_fvt',
                 'class': '',
             }),
         }

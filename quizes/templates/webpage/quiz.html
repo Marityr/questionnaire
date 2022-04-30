@@ -40,10 +40,12 @@
                     <a class="btn btn-lg btn-primary" id="paste6">NEXT</a>
                 </div>
             {% endif %}
-            {% if forloop.counter == 11 %}
+            {% if forloop.counter == 12 %}
                 <div class="row block_paste paste11">
-                    <h2>Block</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                    <br><br>
+                    <p>You’ve passed more than 2/3 of the checkup.</p>
+                    <p> Great – you are close to the finish!</p>
+                    <p> Let's do it together!</p>
                     <a class="btn btn-lg btn-primary" id="paste11">NEXT</a>
                 </div>
             {% endif %}
@@ -63,7 +65,12 @@
                         {% if forloop.counter == 1 %}
                             <label for="" class="question-label">{{obj}}</label>
                         {% endif %}
-                        {% if forloop.counter > 1 %}
+                        {% if forloop.counter == 2 %}
+                            {% if obj != None %}
+                                {{obj|safe}}
+                            {% endif %}
+                        {% endif %}
+                        {% if forloop.counter > 2 %}
                             <div class="col">
                             {% for answer in obj %}
                                 {% if forloop.counter == 1 %}
@@ -247,7 +254,7 @@
             </script>
             {% if forloop.last %}
             <div class="result" id="result" all-step="{{forloop.counter}}">
-                <h2>Welly Screenig Resultat</h2>
+                <h2>Welly Screening Result</h2>
                 <div class="row" id="result-block">
 
                 </div>

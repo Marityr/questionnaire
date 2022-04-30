@@ -24,7 +24,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <h2></h2>
-                    <label for="exampleFormControlSelect1">Оцените от 1 до 10 удовлетворенность результатами тестирования	1-10</label>
+                    <label for="exampleFormControlSelect1">Please rate your satisfaction with the test on a scale from 1 to 10                    </label>
                     <select class="form-control" id="exampleFormControlSelect1">
                         <option value="">
                             1
@@ -41,14 +41,29 @@
                         <option value="">
                             5
                         </option>
+                        <option value="">
+                            6
+                        </option>
+                        <option value="">
+                            7
+                        </option>
+                        <option value="">
+                            8
+                        </option>
+                        <option value="">
+                            9
+                        </option>
+                        <option value="">
+                            10
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Что вам понравилось больше всего?</label>
+                    <label for="exampleFormControlTextarea1">What did you like the most?</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Что вам не понравилось больше всего?</label>
+                    <label for="exampleFormControlTextarea1">What did you dislike the most? What would you change</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary w-100">Send feedback</button>
