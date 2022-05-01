@@ -66,7 +66,7 @@
                             <label for="" class="question-label">{{obj}}</label>
                         {% endif %}
                         {% if forloop.counter == 2 %}
-                            {% if obj != None %}
+                            {% if obj != None and obj|length > 0 %}
                                 {{obj|safe}}
                             {% endif %}
                         {% endif %}
@@ -74,13 +74,14 @@
                             <div class="col">
                             {% for answer in obj %}
                                 {% if forloop.counter == 1 %}
-                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}"
+                                <label for="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %} {{forloop.parentloop.counter}}">
+                                <input type="radio" class="ans" name="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %}" {% for name in item %}{% if forloop.counter == 1 %}required{% endif %}{% endfor %} value="{{answer}}" id="{% for name in item %}{% if forloop.counter == 1 %}{{name}}{% endif %}{% endfor %} {{forloop.parentloop.counter}}"
                                 {% endif %}
                                 {% if forloop.counter == 2 %}
-                                    id="{{answer}}" checked>
+                                    alt="{{answer}}">
                                 {% endif %}
                                 {% if forloop.counter == 3 %}
-                                <label for="">{{answer}}</label>
+                                {{answer}}</label>
                                 {% endif %}
                             {% endfor %}
                             </div>
@@ -206,7 +207,7 @@
                         if (el.checked) {
                             data[el.name] = el.value
                             result_block += Number(el.value)
-                            cuase_block.push(el.id)
+                            cuase_block.push(el.alt)
                         } else {
                             if (!data[el.name]) {
                                 data[el.name] = null
@@ -241,6 +242,7 @@
                         url: `${url}save/`,
                         data: data_form,
                         success: function (response) {
+                            console.log(data_form)
                             console.log(response)
                             revie()
                         },
@@ -375,5 +377,7 @@
             $('.paste11').remove()
         })
         $('#body-form-3 input').removeAttr("required")
+
+        
     </script>
 {% endblock content %}

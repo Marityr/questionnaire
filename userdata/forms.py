@@ -21,13 +21,13 @@ class UserDataForm(ModelForm):
             }),
             'age': forms.TextInput(attrs={
                 'class': 'form-control',
-                'type': 'text',
+                'type': 'number',
                 'placeholder': 'Age'
             }),
-            'gender': forms.TextInput(attrs={
+            'gender': forms.Select(attrs={
                 'class': 'form-control',
                 'type': 'text',
-                'placeholder': 'Male/female'
+                'placeholder': 'Male / female / other / .......'
             }),
             'massa': forms.TextInput(attrs={
                 'class': 'form-control',

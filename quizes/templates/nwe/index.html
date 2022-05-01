@@ -12,7 +12,7 @@
 {% block content %}
     <div class="block-main">
         <div id="header-block">
-            <h1>Welly Digital Screeningk</h1>
+            <h1>Welly Digital Screening</h1>
         </div>
         <hr>
         <div id="body-block">
@@ -22,9 +22,10 @@
                     <li>Do not use in emergencies. In case of health emergency, call your local emergency number immediately.</li>
                     <li>Your data is safe. Information that you provide is anonymous and not shared with anyone.</li>
                 </ul>
-
-                <p style="background: none;">OK   I read and accept <a href="{% static 'uploads/politic.pdf'%}">Terms</a> of Service
-                <br>OK   I agree to the processing of my health information for the purpose of performing the interview.</p>
+                
+                <p style="background: none;">
+                    By clicking Next, you agree to the <a href="{% static 'uploads/politic.pdf'%}">Terms</a> of Service and agree to the processing of health data
+                </p>
         </div>
         <div id="button-block text-center">
             <button class="btn btn-lg w-100 btn-primary" id="activate-test">Next</button>

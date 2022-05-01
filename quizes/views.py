@@ -247,7 +247,7 @@ class QuizView(View):
         
         print(len(all_block))
         context = {
-            'questions': all_block,
+            'questions': all_block[:2],
             'uid': uid,
         }
 

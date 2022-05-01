@@ -52,6 +52,11 @@ button span {
     margin-bottom: 5px;
 }
 
+.row-questions p {
+    background: none;
+    margin: 0;
+}
+
 .causep {
     padding: 0 0 0 10px;
 }
