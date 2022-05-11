@@ -20,7 +20,7 @@
         <div id="header-block">
         </div>
         <div id="body-block" style="overflow-y: auto;height: 100%;">
-            <h2 style="position: sticky;top: 0;background: #fff;padding-bottom: 5px;">Welly Screening Result</h2>
+            <h2 style="position: sticky;top: 0;background: #fff;padding-bottom: 5px;">Welly Screening Results</h2>
             <div id="result-block"></div>
         </div>
         <div id="button-block"></div>
@@ -45,13 +45,10 @@
                     resultBlock.innerHTML = `
                             <div class="col-12">
                                 <div class="row resblock">
-                                    <div class="col-6">
+                                    <div class="col-4 col-sm-5 col-md-4">
                                         
                                     </div>
-                                    <div class="col-2">
-                                        
-                                    </div>
-                                    <div class="col-4 text-center">
+                                    <div class="col-8 col-sm-7 col-md-8 text-center">
                                         Causes
                                     </div>
                                 </div>
@@ -69,13 +66,10 @@
                             resultBlock.innerHTML += `
                             <div class="col-12">
                                 <div class="row resblock ${elements[2]}">
-                                    <div class="col-6">
+                                    <div class="col-4 col-sm-5 col-md-4">
                                         ${elements[0]}
                                     </div>
-                                    <div class="col-2">
-                                        ${elements[1]}
-                                    </div>
-                                    <div class="col-4">
+                                    <div class="col-8 col-sm-7 col-md-8">
                                         ${elements[3]}
                                     </div>
                                 </div>

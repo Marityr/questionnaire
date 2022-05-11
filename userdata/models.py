@@ -4,7 +4,7 @@ from django.db import models
 
 GENDER_CHOICES = (
     ('Male', 'Male'),
-    ('Famele', 'Famele'),
+    ('Female', 'Female'),
     ('Non-binary', 'Non-binary'),
     ('Transgender', 'Transgender'),
     ('Intersex', 'Intersex'),

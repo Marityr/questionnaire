@@ -3,7 +3,14 @@
 {% block content %}
 <div class="block-main">
     <div>
-        <h2 class="text-center">Hello {{ user.first_name }}!</h2>
+        <h2 class="text-center">Hello! <br>
+            Your digital health coach Welly is here.
+            </h2>
+        <p style="background: none;">Check your symptoms and find out root causes to assess your overall health status.
+            You are about to use a long (40 min), extensive, safe and anonymous health checkup. Skip question blocks that are not relevant to you.</p>
+        <p style="background: none;">Your answers will be carefully analyzed and you’ll learn about possible causes of your symptoms and information to help you decide next best actions.</p>
+            <p style="background: none;">We know taking the first steps toward starting a wellness journey can be challenging and we want to make it beneficial for you. </p>
+           <p style="background: none;"> Who is the checkup for?</p>
         <form action="" method="POST">
             {% csrf_token %}
             <div class="mb-3">{{ form.username }}</div>

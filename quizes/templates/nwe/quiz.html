@@ -21,15 +21,7 @@
                 ID - <span>{{ uid }}-</span>
             </button>
         </div>
-        <div class="progress">
-            <div class="progress-bar"
-                 role="progressbar"
-                 style="width: 0%"
-                 aria-valuenow="0"
-                 aria-valuemin="0"
-                 aria-valuemax="100">
-            </div>
-        </div>
+        
         <br>
         {% for data in questions %}
             <form id="body-form-{{ forloop.counter }}"
@@ -130,7 +122,7 @@
                                     bstep="{{ forloop.counter }}"
                                     result="result"
                                     onclick="">
-                                NEXT - RESULT
+                                    RESULTS
                             </button>
                         {% endif %}
                     </div>
@@ -204,7 +196,7 @@
             </script>
             {% if forloop.last %}
                 <div class="result" id="result" all-step="{{ forloop.counter }}">
-                    <h2>Welly Screenig Resultat</h2>
+                    <h2>Welly Screening Results</h2>
                     <div class="row" id="result-block"></div>
                 </div>
                 <script>

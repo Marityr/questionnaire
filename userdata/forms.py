@@ -34,15 +34,17 @@ class UserDataForm(ModelForm):
                 'type': 'text',
                 'placeholder': 'Weight'
             }),
-            'purpose': forms.TextInput(attrs={
+            'purpose': forms.Textarea(attrs={
                 'class': 'form-control',
                 'type': 'text',
-                'placeholder': 'What are your goals on the way to improve your health?'
+                'placeholder': 'What are your goals on the way to improve your health?',
+                'rows': '5'
             }),
-            'decision': forms.TextInput(attrs={
+            'decision': forms.Textarea(attrs={
                 'class': 'form-control',
                 'type': 'text',
-                'placeholder': 'Why did you decide to get screened by Welly?'
+                'placeholder': 'Why did you decide to get screened by Welly?',
+                'rows': '5'
             }),
             'problem': forms.CheckboxInput(attrs={
                 'name': 'problem',
