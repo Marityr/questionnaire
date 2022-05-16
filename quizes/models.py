@@ -67,6 +67,7 @@ class Answer(models.Model):
     """Ответы"""
 
     text = models.CharField(max_length=200)
+    count = models.CharField(verbose_name='Попытка', default=0, max_length=255)
     value_answer = models.CharField(max_length=200)
     cause = models.CharField(max_length=200, blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -103,6 +104,7 @@ class Result_answers(models.Model):
     questions = models.CharField(max_length=500)
     causes = models.CharField(max_length=200)
     result = models.CharField(max_length=20)
+    count = models.CharField(verbose_name='Количество попыток', default=0, max_length=20)
     color = models.CharField(max_length=200, default='notcolor', blank=True, null=True)
 
     def __str__(self) -> str:
@@ -111,3 +113,21 @@ class Result_answers(models.Model):
     class Meta:
         verbose_name = 'Результат ответов'
         verbose_name_plural = 'Результаты ответов'
+
+
+class NewAnsvers(models.Model):
+    """Новая схема сохранения результатов с количеством попыток для отчетности"""
+
+    userID = models.CharField(verbose_name='Идентификатор', max_length=255)
+    count = models.CharField(verbose_name='Попытка', max_length=255)
+    quiz = models.CharField(verbose_name='Опросник', max_length=255)
+    question = models.CharField(verbose_name='Вопрос', max_length=255)
+    ansver_values = models.CharField(verbose_name='Ответ', max_length=255)
+    cause = models.CharField(verbose_name='Потологии', max_length=200, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.userID
+
+    class Meta:
+        verbose_name = 'NEW Результат ответов'
+        verbose_name_plural = 'NEW Результаты ответов'

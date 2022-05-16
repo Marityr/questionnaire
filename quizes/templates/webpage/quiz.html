@@ -189,13 +189,24 @@
                     const url = window.location.href
                     const data = {}
                     const data_form = {}
+                    const answer_data = {}
+                    const answer_form = new Array();
+                    answer_data['csrfmiddlewaretoken'] = csrf[0].value
+                    answer_data['name_block'] = $('#body-form-{{ forloop.counter }} > h1').text()
                     data['csrfmiddlewaretoken'] = csrf[0].value
                     data_form['csrfmiddlewaretoken'] = csrf[0].value
+
+                    const new_data = new Array();
                 
                     result_block = 0
+
                     var cuase_block = new Array();
+                    //var itr = 0
                     elements.forEach(el => {
                         if (el.checked) {
+                            new_data.push([el.name, el.value])
+                            let answer = `${el.name} | ${el.value}`
+                            answer_form.push(answer)
                             data[el.name] = el.value
                             result_block += Number(el.value)
                             cuase_block.push(el.alt)
@@ -204,6 +215,7 @@
                                 data[el.name] = null
                             }
                         }
+                        
                 
                         if (el.type == 'submit') {
                             var step = Number($(el).attr('bstep'));
@@ -215,6 +227,7 @@
                     data_form['name_block'] = $('#body-form-{{ forloop.counter }} > h1').text()
                     data_form['result_block'] = result_block
                     data_form['cuase_block'] = cuase_block.join()
+                    //data_form['result_ansver'] = answer_form
 
                     function revie(e) {
                         elements.forEach(el => {
@@ -222,7 +235,8 @@
                                 const res = el.hasAttribute('result')
                                 console.log(res)
                                 if(res == true) {
-                                    result()
+                                    localStorage.clear()
+                                    location.href = '/resultpage/{{countdata}}/';
                                 }
                             }
                         })
@@ -235,6 +249,19 @@
                         success: function (response) {
                             console.log(data_form)
                             console.log(response)
+                            revie()
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    })
+                    
+                    answer_data['answer'] = answer_form.join(" # ")
+                    $.ajax({
+                        type: 'POST',
+                        url: `${url}newsaveansver/`,
+                        data: answer_data,
+                        success: function (response) {
                             revie()
                         },
                         error: function (error) {
@@ -364,6 +391,17 @@
         $('#body-form-3 input').removeAttr("required")
         $('#body-form-8 input').removeAttr("required")
 
+        document.querySelectorAll('input[type="radio"]').forEach(elt => { 
+            if (localStorage.getItem(elt.name) == elt.value) 
+                elt.checked = true; 
+            elt.addEventListener("change", e => { 
+                localStorage.setItem(e.path[0].name, e.path[0].value); 
+            }); 
+        });
+
+        function clearlocalsrotage(){
+            localStorage.clear()
+        }
         
     </script>
 {% endblock content %}

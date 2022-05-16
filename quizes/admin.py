@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django import forms
+from django.contrib.admin.options import ModelAdmin, TabularInline, StackedInline
 
-from .models import Quiz, BlockQuiz, Question, Answer, ResultAnswers, Result_answers
+from .models import Quiz, BlockQuiz, Question, Answer, ResultAnswers, Result_answers, NewAnsvers
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
@@ -62,6 +63,20 @@ class Result_answersAdmin(admin.ModelAdmin):
 
     display_list = (
         'uid'
+    )
+
+@admin.register(NewAnsvers)
+class NewAnswersAdmin(ModelAdmin):
+    list_display = (
+        'userID',
+        'count',
+        'quiz',
+        'question',
+        'ansver_values'
+    )
+
+    list_filter = (
+        'quiz',
     )
 
 

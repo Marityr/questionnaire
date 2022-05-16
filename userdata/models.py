@@ -27,26 +27,29 @@ class UserData(models.Model):
     massa = models.CharField(verbose_name='Вес', max_length=255, null=True, blank=True)
     purpose = models.CharField(verbose_name='Цели', max_length=255, null=True, blank=True)
     decision = models.CharField(verbose_name='Решение', max_length=255, null=True, blank=True)
-    problem = models.BooleanField(verbose_name='1')
-    problem_two = models.BooleanField(verbose_name='2')
-    problem_fre = models.BooleanField(verbose_name='3')
-    problem_foo = models.BooleanField(verbose_name='4')
-    problem_fiv = models.BooleanField(verbose_name='5')
-    problem_sex = models.BooleanField(verbose_name='6')
-    problem_sev = models.BooleanField(verbose_name='7')
-    problem_ech = models.BooleanField(verbose_name='8')
-    problem_noi = models.BooleanField(verbose_name='9')
-    problem_thn = models.BooleanField(verbose_name='10')
-    problem_elv = models.BooleanField(verbose_name='11')
-    problem_lav = models.BooleanField(verbose_name='13')
-    problem_ulw = models.BooleanField(verbose_name='14')
-    problem_flv = models.BooleanField(verbose_name='15')
-    problem_fvt = models.BooleanField(verbose_name='16')
+
+    count = models.CharField(verbose_name='Количество попыток', default=0, max_length=20)
+
+    problem = models.BooleanField(verbose_name='1', null=True, blank=True)
+    problem_two = models.BooleanField(verbose_name='2',  null=True, blank=True)
+    problem_fre = models.BooleanField(verbose_name='3',  null=True, blank=True)
+    problem_foo = models.BooleanField(verbose_name='4',  null=True, blank=True)
+    problem_fiv = models.BooleanField(verbose_name='5',  null=True, blank=True)
+    problem_sex = models.BooleanField(verbose_name='6',  null=True, blank=True)
+    problem_sev = models.BooleanField(verbose_name='7',  null=True, blank=True)
+    problem_ech = models.BooleanField(verbose_name='8',  null=True, blank=True)
+    problem_noi = models.BooleanField(verbose_name='9',  null=True, blank=True)
+    problem_thn = models.BooleanField(verbose_name='10',  null=True, blank=True)
+    problem_elv = models.BooleanField(verbose_name='11',  null=True, blank=True)
+    problem_lav = models.BooleanField(verbose_name='13',  null=True, blank=True)
+    problem_ulw = models.BooleanField(verbose_name='14',  null=True, blank=True)
+    problem_flv = models.BooleanField(verbose_name='15',  null=True, blank=True)
+    problem_fvt = models.BooleanField(verbose_name='16',  null=True, blank=True)
 
     class Meta:
         verbose_name = "Данные пользователя"
         verbose_name_plural = "Данные пользователей"
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.username}'
 

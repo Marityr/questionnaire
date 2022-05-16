@@ -19,7 +19,7 @@
             <div class="mb-3">{{ form.massa }}</div>
             <div class="mb-3">{{ form.purpose }}</div>
             <div class="mb-3">{{ form.decision }}</div>
-            <div class="mb-3">
+            <div class="mb-3" style="display: none">
                 <div class="row">
                     <div class="col-12">
                         {{ form.problem }}
@@ -86,6 +86,16 @@
             </div>
             <button type="submit" class="btn btn-primary tex-right w-100 btn-lg">START QUESTIONS</button>
         </form>
+        <hr>
+        <div id="button-page">
+        </div>
     </div>
 </div>
+<script>
+    const buttonpage = document.getElementById('button-page')
+    var iter = {{count}}
+    for (var i = 0; i < Number(iter); i++) {
+        buttonpage.innerHTML += `<a href="/resultpages/${i}/" class="btn btn-primary">${i+1}</a>`
+    }
+</script>
 {% endblock %}

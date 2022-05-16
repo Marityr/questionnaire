@@ -12,7 +12,24 @@ class UserDataForm(ModelForm):
     class Meta:
         model = UserData
         fields = '__all__'
-        exclude = ['username']
+        exclude = [
+            'username', 
+            'problem',
+            'problem_two',
+            'problem_fre',
+            'problem_foo',
+            'problem_fiv',
+            'problem_sex',
+            'problem_sev',
+            'problem_ech',
+            'problem_noi',
+            'problem_thn',
+            'problem_elv',
+            'problem_lav',
+            'problem_ulw',
+            'problem_flv',
+            'problem_fvt',
+        ]
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'form-control',

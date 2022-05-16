@@ -10,6 +10,9 @@ from .views import (
     Dashboard,
     LastPage,
     ResulrPage,
+    NewSaveAnsver,
+    NewResult,
+    CountItr,
 )
 
 app_name = 'quizes'
@@ -22,6 +25,9 @@ urlpatterns = [
     path('home/<uid>/result/', result_quiz, name='quiz-result'),
     path('user-data/<str:usermane>/', UserUid.as_view(), name='user-data'),
     path('final/', LastPage.as_view(), name='lastpage'),
-    path('resultpage/', ResulrPage.as_view(), name='resultpage'),
+    path('resultpages/<count>/', ResulrPage.as_view(), name='resultpages'),
+    path('resultpage/<count>/', NewResult.as_view(), name='result-count'),
+    path('home/<uid>/newsaveansver/', NewSaveAnsver.as_view(), name='newsaveansver'),
+    path('counter/', CountItr.as_view(), name='counter'),
 ]
 

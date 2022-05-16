@@ -58,10 +58,37 @@
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
+                
+
+                <div class="col-12&quot;">
+                    <div class="row resblock">
+                        <div class="col-12&quot;">
+                            <br><br>
+                            <p>We have uncovered the possible root causes of the health problems. You can receive a health protocol with personalised roadmaps (options of the next steps) to your healthier future.</p>
+                            <p> A health protocol will include extensive health assessment report and personalized recommendations on:<br> 1.Nutrition <br>2.Mind<br> 3.Movement<br> 4.Sleep</p>
+                            <br><br>
+                            <a href="/final/" class="btn btn-lg w-100 btn-danger">Get a personalised health protocol for $150/year</a>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="button-block"></div>
         <div class="footer-block"></div>
     </div>
+
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: `/counter/`,
+            success: function (response) {
+                console.log(response)
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    </script>
 
 {% endblock content %}

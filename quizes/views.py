@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.views import View
 
 from userdata.models import UserData
-from .models import Quiz, BlockQuiz, Question, ResultAnswers, Result_answers, Answer
+from .models import Quiz, BlockQuiz, Question, ResultAnswers, Result_answers, Answer, NewAnsvers
 from userdata.forms import UserDataForm
 
 import json
@@ -45,6 +45,8 @@ class Dashboard(View):
     def get(self, request):
         template_name='dashboard/home.html'
 
+        datauser = UserData.objects.get(username=request.user)
+
         try:
             userdata = UserData.objects.get(username=request.user)
             data = {
@@ -61,7 +63,8 @@ class Dashboard(View):
 
         context = {
             'form': form,
-            'userdata': userdata
+            'userdata': userdata,
+            'count': datauser.count,
         }
 
         return render(request, template_name, context)
@@ -71,7 +74,6 @@ class Dashboard(View):
         if request.method == 'POST':
             form = UserDataForm(request.POST)
             # print(request.POST)
-            print()
             try:
                 userdata = UserData.objects.get(username=request.user)
                 userdata.age = request.POST['age']
@@ -223,6 +225,7 @@ class QuizView(View):
     """Опросник"""
     
     def get(self, request, uid):
+        userdata = UserData.objects.get(username=request.user)
         quiz_all = Quiz.objects.all()
         all_block = []
         for item in quiz_all:
@@ -245,11 +248,14 @@ class QuizView(View):
                 questions.append(answers)
             all_block.append(questions)
         
-        print(len(all_block))
+        # print(len(all_block))
         context = {
-            'questions': all_block[:2],
+            'questions': all_block,
             'uid': uid,
+            'countdata': userdata.count,
         }
+
+        print(userdata.count)
 
         return render(request, 'webpage/quiz.html', context)
 
@@ -265,7 +271,8 @@ def save_quiz(request, uid):
 
     if request.is_ajax():
         data = request.POST
-        
+        userdata = UserData.objects.get(username=request.user)
+        count = userdata.count
         try:
             Result_answers.objects.get(
                 uid=uid,
@@ -277,22 +284,25 @@ def save_quiz(request, uid):
             )
             colors = Quiz.objects.get(topic=data['name_block'])
             if int(data['result_block']) > int(colors.hard):
-                print(data['result_block'], colors.hard)
+                # print(data['result_block'], colors.hard)
                 color = 'hard'
             elif int(data['result_block']) > int(colors.medium):
-                print(data['result_block'], colors.medium)
+                # print(data['result_block'], colors.medium)
                 color = 'medium'
             elif int(data['result_block']) > int(colors.low):
-                print(data['result_block'], colors.low)
+                # print(data['result_block'], colors.low)
                 color = 'low'
             else:
                 color = 'this'
             addanswer.uid = uid
             addanswer.questions = data['name_block']
             addanswer.color = color
-            print( data['cuase_block'])
+            # print( data['cuase_block'])
             addanswer.result = data['result_block']
-            addanswer.causes = data['cuase_block']
+            l = data['cuase_block'].split(',')
+            addanswer.causes =  data['cuase_block']
+
+            addanswer.count = count
 
             addanswer.save()
             result = {'Answers': 'add save'}
@@ -300,13 +310,13 @@ def save_quiz(request, uid):
             addanswer = Result_answers()
             colors = Quiz.objects.get(topic=data['name_block'])
             if int(data['result_block']) > int(colors.hard):
-                print(data['result_block'], colors.hard)
+                # print(data['result_block'], colors.hard)
                 color = 'hard'
             elif int(data['result_block']) > int(colors.medium):
-                print(data['result_block'], colors.medium)
+                # print(data['result_block'], colors.medium)
                 color = 'medium'
             elif int(data['result_block']) > int(colors.low):
-                print(data['result_block'], colors.low)
+                # print(data['result_block'], colors.low)
                 color = 'low'
             else:
                 color = 'this'
@@ -316,9 +326,13 @@ def save_quiz(request, uid):
             addanswer.uid = uid
             addanswer.questions = data['name_block']
             addanswer.result = data['result_block']
+            l = data['cuase_block'].split(',')
             addanswer.causes = str(data['cuase_block'])
 
-            print(data['name_block'])
+            # print(data['name_block'])
+
+            addanswer.count = count
+
             addanswer.save()
             result = {'Answers': 'add save'}
 
@@ -384,7 +398,7 @@ def result_quiz(request, uid):
                 tmp.append(tmp2)
         result_all.append(tmp)
 
-    return JsonResponse({'result': result_all})
+    return JsonResponse({'result_all': result_all})
 
 
 class UserUid(View):
@@ -409,20 +423,159 @@ class LastPage(View):
         return render(request, template)
 
     def post(self, request):
-        return redirect('quizes:resultpage')
+        userdata = UserData.objects.get(username=request.user)
+
+        return redirect('quizes:resultpages', userdata.count)
 
 
 class ResulrPage(View):
 
-    def get(self, request):
+    def get(self, request, count):
         template = 'nwe/result.html'
         user_data = User.objects.get(username=request.user)
-
         message = f"{user_data.username}-{user_data.email}"
         message_bytes = message.encode('ascii')
         base64_bytes = base64.b64encode(message_bytes)
         base64_message = base64_bytes.decode('ascii')
+        result = Result_answers.objects.filter(count=count, uid=base64_message)
+
+        result_user = Result_answers.objects.filter(count=count, uid=base64_message)
+        block = BlockQuiz.objects.all()
+        
+
+        all_result = []
+        for item in result_user:
+            tmp = []
+            tmp.append(item.questions)
+            tmp.append(item.result)
+            tmp.append(item.color)
+            tmp.append(list_cause(item.causes))
+            all_result.append(tmp)
+
+        result_all = []
+        for item in block:
+            tmp = []
+            tmp.append(item.title)
+            # print(item.title)
+            quiz = Quiz.objects.filter(title_block=item.id)
+            for obj in quiz:
+                tmp2 = []
+                # print(obj.topic)
+                for it in all_result:
+                    if it[0] == obj.topic:
+                        tmp2.append(it[2])
+                        tmp2.append(it[0])
+                        tmp2.append(it[1])
+                        
+                        tmp2.append(it[3])
+                        # print(it[0], it[1], it[2])
+                if tmp2:
+                    tmp.append(tmp2)
+            result_all.append(tmp)
         context = {
-            'uid': base64_message,
+            'resultdata': result,
+            'result_all': result_all,
         }
         return render(request, template, context)
+
+
+class NewSaveAnsver(View):
+
+    def post(self, request, uid):
+        if request.is_ajax():
+            data = request.POST
+            userdata = UserData.objects.get(username=request.user)
+            count = userdata.count
+            
+            answer = data['answer'].split(' # ')
+            answer_data = []
+
+            for item in answer:
+                tmp = item.split(" | ")
+                answer_data.append(tmp)
+
+            # for item in answer_data:
+            #     print(item[0], ' -- ', item[1])
+
+            try:
+                for item in answer_data:
+                    newanswers = NewAnsvers.objects.get(count=count, userID=uid, question=item[0])
+                    newanswers.userID = uid
+                    newanswers.count = count
+                    newanswers.quiz = data['name_block']
+                    newanswers.question = item[0]
+                    newanswers.ansver_values = item[1]
+                    newanswers.save()
+            except NewAnsvers.DoesNotExist:
+                for item in answer_data:
+                    newanswers = NewAnsvers()
+                    newanswers.userID = uid
+                    newanswers.count = count
+                    newanswers.quiz = data['name_block']
+                    newanswers.question = item[0]
+                    newanswers.ansver_values = item[1]
+                    newanswers.save()
+        
+        result = {'Answers': 'add save'}
+        return JsonResponse(result)
+
+
+class NewResult(View):
+
+    def get(self, request, count):
+        template = 'nwe/newresult.html'
+        user_data = User.objects.get(username=request.user)
+        message = f"{user_data.username}-{user_data.email}"
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        result = Result_answers.objects.filter(count=count, uid=base64_message)
+
+        result_user = Result_answers.objects.filter(count=count, uid=base64_message)
+        block = BlockQuiz.objects.all()
+        
+
+        all_result = []
+        for item in result_user:
+            tmp = []
+            tmp.append(item.questions)
+            tmp.append(item.result)
+            tmp.append(item.color)
+            tmp.append(list_cause(item.causes))
+            all_result.append(tmp)
+
+        result_all = []
+        for item in block:
+            tmp = []
+            tmp.append(item.title)
+            # print(item.title)
+            quiz = Quiz.objects.filter(title_block=item.id)
+            for obj in quiz:
+                tmp2 = []
+                # print(obj.topic)
+                for it in all_result:
+                    if it[0] == obj.topic:
+                        tmp2.append(it[2])
+                        tmp2.append(it[0])
+                        tmp2.append(it[1])
+                        
+                        tmp2.append(it[3])
+                        # print(it[0], it[1], it[2])
+                if tmp2:
+                    tmp.append(tmp2)
+            result_all.append(tmp)
+        context = {
+            'resultdata': result,
+            'result_all': result_all,
+        }
+        return render(request, template, context)
+    
+
+class CountItr(View):
+
+    def get(self, request):
+        data = UserData.objects.get(username=request.user)
+        data.count = int(data.count) + 1
+        data.save()
+    
+        return JsonResponse({'Count': 'true'})

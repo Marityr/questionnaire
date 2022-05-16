@@ -29,6 +29,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     height: 95%;
+    position: relative;
 }
 
 .home-button {
@@ -214,6 +215,7 @@ p span {
 #progbar {
     position: fixed;
     bottom: 0px;
+    max-width: 750px;
     width: 100%;
 }
 
@@ -238,7 +240,7 @@ button[type="button"].bbts {
 }
 
 .block_paste {
-    position: sticky;
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
@@ -247,6 +249,7 @@ button[type="button"].bbts {
     z-index: 999;
     padding-top: 70px;
     display: block;
+    margin: 0 auto;
 }
 
 header {
@@ -290,3 +293,12 @@ header {
         z-index: 99;
     }
 }
+
+#button-page a {
+    margin: 0 5px;
+}
+
+/* #button-page a:last-child {
+    background: #ddd;
+    color: #000;
+} */
