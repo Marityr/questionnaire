@@ -28,7 +28,7 @@ class UserData(models.Model):
     purpose = models.CharField(verbose_name='Цели', max_length=255, null=True, blank=True)
     decision = models.CharField(verbose_name='Решение', max_length=255, null=True, blank=True)
 
-    count = models.CharField(verbose_name='Количество попыток', default=0, max_length=20)
+    count = models.CharField(verbose_name='Количество попыток', default=1, max_length=20)
 
     problem = models.BooleanField(verbose_name='1', null=True, blank=True)
     problem_two = models.BooleanField(verbose_name='2',  null=True, blank=True)

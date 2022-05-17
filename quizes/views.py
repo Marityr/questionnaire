@@ -45,7 +45,6 @@ class Dashboard(View):
     def get(self, request):
         template_name='dashboard/home.html'
 
-        datauser = UserData.objects.get(username=request.user)
 
         try:
             userdata = UserData.objects.get(username=request.user)
@@ -53,8 +52,10 @@ class Dashboard(View):
                 'age': userdata.age,
             }
             form = UserDataForm(instance=userdata)
+            count = userdata.count
         except UserData.DoesNotExist:
             form = UserDataForm()
+            count = 0
 
         try:
             userdata = UserData.objects.get(username=request.user)
@@ -64,7 +65,7 @@ class Dashboard(View):
         context = {
             'form': form,
             'userdata': userdata,
-            'count': datauser.count,
+            'count': count,
         }
 
         return render(request, template_name, context)
@@ -425,7 +426,7 @@ class LastPage(View):
     def post(self, request):
         userdata = UserData.objects.get(username=request.user)
 
-        return redirect('quizes:resultpages', userdata.count)
+        return redirect('quizes:resultpages', int(userdata.count) -1)
 
 
 class ResulrPage(View):

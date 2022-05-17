@@ -20,7 +20,7 @@
         <div id="header-block">
         </div>
         <div id="body-block" style="overflow-y: auto;height: 100%;">
-            <h2 style="position: sticky;top: 0;background: #fff;padding-bottom: 5px;">Welly Screening Results</h2>
+            <h2 style="position: sticky;top: 0;background: #fff;padding-bottom: 5px;">Possible causes of your health problems</h2>
             <div id="result-block">
                 <div class="col-12">
                     <div class="row resblock">
@@ -48,7 +48,7 @@
                                 {% if forloop.counter == 4 %}
                                             <div class="col-8 col-sm-7 col-md-8">
                                                 {% for cuases in quiz %}
-                                                    {{cuases}}
+                                                    {{cuases}},
                                                 {% endfor %}   
                                             </div>
                                         </div>

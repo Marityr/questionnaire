@@ -94,8 +94,10 @@
 <script>
     const buttonpage = document.getElementById('button-page')
     var iter = {{count}}
-    for (var i = 0; i < Number(iter); i++) {
-        buttonpage.innerHTML += `<a href="/resultpages/${i}/" class="btn btn-primary">${i+1}</a>`
+    if (Number(iter) > 1) {
+        for (var i = 1; i <= Number(iter); i++) {
+            buttonpage.innerHTML += `<a href="/resultpages/${i}/" class="btn btn-primary">${i}</a>`
+        }
     }
 </script>
 {% endblock %}

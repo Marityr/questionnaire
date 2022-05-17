@@ -67,7 +67,6 @@ class Answer(models.Model):
     """Ответы"""
 
     text = models.CharField(max_length=200)
-    count = models.CharField(verbose_name='Попытка', default=0, max_length=255)
     value_answer = models.CharField(max_length=200)
     cause = models.CharField(max_length=200, blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -104,7 +103,7 @@ class Result_answers(models.Model):
     questions = models.CharField(max_length=500)
     causes = models.CharField(max_length=200)
     result = models.CharField(max_length=20)
-    count = models.CharField(verbose_name='Количество попыток', default=0, max_length=20)
+    count = models.CharField(verbose_name='Количество попыток', default=1, max_length=20)
     color = models.CharField(max_length=200, default='notcolor', blank=True, null=True)
 
     def __str__(self) -> str:
