@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # 'questions',
     'userdata',
     'parsertable',
+    'feedback',
 
     'crispy_forms',
 ]

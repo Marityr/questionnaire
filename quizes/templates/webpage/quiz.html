@@ -28,7 +28,7 @@
                     <p>You passed 1/3 of the checkup.</p>
                     <p>Great – let’s get going!</p>
                     <p>Next questions help us to figure out your current state of health.</p>
-                    <a class="btn btn-lg btn-primary" id="paste6">NEXT</a>
+                    <a class="btn btn-lg btn-success" id="paste6">NEXT</a>
                 </div>
             {% endif %}
             {% if forloop.counter == 12 %}
@@ -37,7 +37,7 @@
                     <p>You’ve passed more than 2/3 of the checkup.</p>
                     <p> Great – you are close to the finish!</p>
                     <p> Let's do it together!</p>
-                    <a class="btn btn-lg btn-primary" id="paste11">NEXT</a>
+                    <a class="btn btn-lg btn-success" id="paste11">NEXT</a>
                 </div>
             {% endif %}
             {% for item in data  %}
@@ -90,7 +90,7 @@
                 {% comment %} {% endif %} {% endcomment %}
                 {% if not forloop.last %}
                     <button type="button"
-                    class="btn btn-lg btn-primary skipbtn"
+                    class="btn btn-lg btn-success skipbtn"
                     name="button"
                     id="skip{{ forloop.counter }}"
                     bstep="{{ forloop.counter }}">
@@ -107,7 +107,7 @@
                     </script>
                     {% if not forloop.first %}
                     <button type="button"
-                        class="btn btn-lg btn-primary bbts"
+                        class="btn btn-lg btn-success bbts"
                         id="back-{{ forloop.counter }}"
                         bstep="{{ forloop.counter }}">
                             BACK
@@ -134,7 +134,7 @@
                     </script>
                     {% endif %}
                     <button type="submit"
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-lg btn-success"
                     name="button"
                     id="step"
                     bstep="{{ forloop.counter }}">
@@ -143,7 +143,7 @@
                 {% endif %}
                 {% if forloop.last %}
                     <button type="button"
-                        class="btn btn-lg btn-primary bbts"
+                        class="btn btn-lg btn-success bbts"
                         id="back-{{ forloop.counter }}"
                         bstep="{{ forloop.counter }}">
                             BACK
@@ -169,7 +169,7 @@
                         })
                     </script>
                     <button type="submit"
-                    class="btn btn-lg btn-primary resbtn"
+                    class="btn btn-lg btn-success resbtn"
                     name="button"
                     id="step"
                     bstep="{{ forloop.counter }}" result="result" onclick="">
@@ -235,8 +235,19 @@
                                 const res = el.hasAttribute('result')
                                 console.log(res)
                                 if(res == true) {
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: `/counter/`,
+                                        data: answer_data,
+                                        success: function (response) {
+                                            console.log(response)
+                                        },
+                                        error: function (error) {
+                                            console.log(error)
+                                        },
+                                    })
                                     localStorage.clear()
-                                    location.href = '/resultpage/{{countdata}}/';
+                                    //location.href = '/resultpage/{{countdata}}/';
                                 }
                             }
                         })
@@ -274,11 +285,32 @@
             </script>
             {% if forloop.last %}
             <div class="result" id="result" all-step="{{forloop.counter}}">
-                <h2>Welly Screening Results</h2>
-                <div class="row" id="result-block">
-
+                <h2>Thank you!</h2>
+                <div class="row nobp" id="result-block">
+                    <p>
+                        Based on your responses, we’ve created a report to help you decide your next steps.
+                    <br>
+                        We use different colours to prioritise the possible causes of your health problems.
+                    <br>
+                        Green blocks mean the results are within the normal range, most likely there is no any problem.
+                    <br>
+                        Yellow blocks mean you have to pay attention to these parts of your health.
+                    <br>
+                        Red blocks mean detected diseases are most likely to be the primary causes of your health problems, needed to be treated firstly to prevent future aggravation of symptoms.
+                    </p>
+                    <p>
+                        Please note:
+                        <br>
+                        This isn’t a diagnosis. Always visit a doctor if you’re unsure, or if your symptoms get worse, or don’t improve. Welly is not liable for any decisions, acts or omissions you make.
+                        <br>
+                        If it's serious or you think it's an emergency, don't delay – seek medical attention right away.
+                    </p>
+                    <center>
+                        <a href="/resultpage/{{countdata}}/" class="btn btn-lg btn-success">
+                            Get a report
+                        </a>
+                    </center>
                 </div>
-                
             </div>
             <script>
                 var step = Number({{ forloop.counter }});
@@ -307,78 +339,7 @@
             $('.progress-bar').attr('style', 'width: ' + (progress + step_bar) + '%');
             $('.progress-bar').attr('aria-valuenow', (progress + step_bar));
         }
-        function result(){
-            const csrf = document.getElementsByName('csrfmiddlewaretoken')
-            const url = window.location.href
-            const datat = {}
-            const resultBlock = document.getElementById('button-block')
-            datat['csrfmiddlewaretoken'] = csrf[0].value
-            $.ajax({
-                type: 'POST',
-                url: `${url}result/`,
-                data: datat,
-                success: function (response) {
-                    result = response.result
-                    console.log(result)
-                    const resultBlock = document.getElementById('result-block')
-                    
-                    resultBlock.innerHTML += `
-                        <div class="col-12">
-                            <div class="row resblock">
-                                <div class="col-4 col-sm-5 col-md-4">
-                                    
-                                </div>
-                                <div class="col-6 col-sm-6 col-md-7 text-center">
-                                    Causes
-                                </div>
-                            </div>
-                        </div>
-                            `
-
-                    result.forEach(el => {
-                        resultBlock.innerHTML += `                            
-                                <div id="resultanswers"></div>
-                        `
-                        delete el[0]
-                        const resultAnswers = document.getElementById('resultanswers')
-                        el.forEach(elements =>{
-                            console.log(elements)
-                            resultBlock.innerHTML += `
-                            <div class="col-12">
-                                <div class="row resblock ${elements[2]}">
-                                    <div class="col-4 col-sm-5 col-md-4">
-                                        ${elements[0]}
-                                    </div>
-                                    <div class="col-8 col-sm-7 col-md-8">
-                                        ${elements[3]}
-                                    </div>
-                                </div>
-                            </div>
-                            `   
-                        })
-                        resultBlock.innerHTML += `
-                            <div class=col-12">
-                                <div class="row resblock">
-                                    <div class=col-12">
-                                        <br><br>
-                                        <p>We have uncovered the possible root causes of the health problems. You can receive a health protocol with personalised roadmaps (options of the next steps) to your healthier future.</p>
-                                        <p> A health protocol will include extensive health assessment report and personalized recommendations on:<br> 1.Nutrition <br>2.Mind<br> 3.Movement<br> 4.Sleep</p>
-                                        <br><br>
-                                        <a href="{% url 'quizes:lastpage' %}" class="btn btn-lg w-100 btn-danger">Get a personalised health protocol for $150/year</a>
-                                        <br><br>
-                                    </div>
-                                </div>
-                            </div>
-                            `  
-                                   
-                    })
-
-                },
-                error: function (error) {
-                    console.log(error)
-                },
-            })
-        }
+        
     </script>
 
     <script>
@@ -392,10 +353,14 @@
         $('#body-form-8 input').removeAttr("required")
 
         document.querySelectorAll('input[type="radio"]').forEach(elt => { 
+
+            console.log(elt)
             if (localStorage.getItem(elt.name) == elt.value) 
                 elt.checked = true; 
+            //TODO evnt target neeed!!!!
             elt.addEventListener("change", e => { 
-                localStorage.setItem(e.path[0].name, e.path[0].value); 
+                console.log(e)
+                //localStorage.setItem(e.path[0].name, e.path[0].value);
             }); 
         });
 

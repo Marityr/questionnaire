@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 from requests import Response
 
-from quizes.models import BlockQuiz, Quiz, Question, Answer
+from quizes.models import BlockQuiz, Quiz, Question, Answer, CauseModel
 
 import openpyxl
 import json
@@ -143,3 +143,28 @@ class Problem_add(View):
             'table': question,
         }
         return render(request, template, context)
+
+class ParserCause(View):
+
+    def get(self, request):
+        book = openpyxl.open("media/cause.xlsx", read_only=True)
+        sheet = book.active
+
+        for row in sheet.rows:
+            cause = CauseModel()
+            if row[1].value is None:
+                break
+
+            cause.name = row[2].value
+            if row[3].value is None:
+                cause.text_body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+            else:
+                cause.text_body = row[3].value
+            if row[4].value is None:
+                cause.text_cause = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+            else:
+                cause.text_cause = row[4].value
+            cause.save()
+            print(row[0].value)
+        
+        return JsonResponse({"work": "true"})

@@ -7,6 +7,12 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
+<style>
+    button[type="submit"] {
+        background: #238754;
+        border-radius: 0;
+    }
+</style>
 <div class="block-main">
 <div class="text-center">
     <h1>{% trans "Sign Up" %}</h1>
@@ -22,7 +28,7 @@
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
         <div class="d-grid mt-3">
-            <button class="btn btn-dark" type="submit">{% trans "Sign Up" %}</button>
+            <button class="btn btn-success" type="submit">{% trans "Sign Up" %}</button>
         </div>
         </form>
     </div>

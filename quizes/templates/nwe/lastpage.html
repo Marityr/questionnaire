@@ -25,48 +25,17 @@
                 <div class="form-group">
                     <h2></h2>
                     <label for="exampleFormControlSelect1">Please rate your satisfaction with the test on a scale from 1 to 10                    </label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option value="">
-                            1
-                        </option>
-                        <option value="">
-                            2
-                        </option>
-                        <option value="">
-                            3
-                        </option>
-                        <option value="">
-                            4
-                        </option>
-                        <option value="">
-                            5
-                        </option>
-                        <option value="">
-                            6
-                        </option>
-                        <option value="">
-                            7
-                        </option>
-                        <option value="">
-                            8
-                        </option>
-                        <option value="">
-                            9
-                        </option>
-                        <option value="">
-                            10
-                        </option>
-                    </select>
+                    {{form.rate}}
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">What did you like the most?</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    {{form.like}}
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">What did you dislike the most? What would you change</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    {{form.dislike}}
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary w-100">Send feedback</button>
+                <button type="submit" class="btn btn-lg btn-success w-100">Send feedback</button>
             </form>
         </div>
         <div id="button-block"></div>

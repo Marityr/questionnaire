@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 import uuid
 
@@ -107,7 +108,7 @@ class Result_answers(models.Model):
     color = models.CharField(max_length=200, default='notcolor', blank=True, null=True)
 
     def __str__(self) -> str:
-        return str(self.uid)
+        return f"{self.uid}"
 
     class Meta:
         verbose_name = 'Результат ответов'
@@ -130,3 +131,19 @@ class NewAnsvers(models.Model):
     class Meta:
         verbose_name = 'NEW Результат ответов'
         verbose_name_plural = 'NEW Результаты ответов'
+
+
+class CauseModel(models.Model):
+    """Причины"""
+
+    name = models.CharField(verbose_name='Cause', max_length=255)
+    text_body = models.TextField(verbose_name='Cause text')
+    text_cause = models.TextField(verbose_name='Cause or text')
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Cause'
+        verbose_name_plural = 'Causes'
+        ordering = ('name',)

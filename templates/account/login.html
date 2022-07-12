@@ -6,6 +6,12 @@
     {% trans "Sign In" %}
 {% endblock %}
 {% block content %}
+<style>
+    button[type="submit"] {
+        background: #238754;
+        border-radius: 0;
+    }
+</style>
     <div class="block-main">
         <div class="row">
             <div class="col-lg-12">
@@ -21,7 +27,7 @@
             {% if socialaccount_providers %}
                 <p>
                     {% blocktrans with site.name as site_name %}
-                    Please, sign in with you Google account or create an account clicking  <a href="{{ signup_url }}" class="btn btn-primary" style="padding: 5px 15px;margin: 0 10px;background: #4285f4;position: relative;top: -1px;">sign up</a>
+                    Please, sign in with you Google account or create an account clicking  <a href="{{ signup_url }}" class="btn btn-success" style="padding: 5px 15px;margin: 0 10px;position: relative;top: -1px;">sign up</a>
                     {% endblocktrans %}
                 </p>
                 <div class="socialaccount_ballot">
@@ -49,7 +55,7 @@
                                value="{{ redirect_field_value }}"/>
                     {% endif %}
                     <div class="d-grid">
-                        <button class="primaryAction mt-3 btn btn-dark" type="submit">{% trans "Sign In" %}</button>
+                        <button class="primaryAction mt-3 btn btn-success" type="submit">{% trans "Sign In" %}</button>
                         <br>
                         <a class="button secondaryAction text-dark text-center"
                            href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>

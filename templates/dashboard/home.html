@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    button[type="submit"] {
+        background: #238754;
+        border-radius: 0;
+    }
+</style>
 <div class="block-main">
     <div>
         <h2 class="text-center">Hello! <br>
@@ -84,7 +90,7 @@
                     
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary tex-right w-100 btn-lg">START QUESTIONS</button>
+            <button type="submit" class="btn btn-success tex-right w-100 btn-lg">START QUESTIONS</button>
         </form>
         <hr>
         <div id="button-page">
@@ -95,8 +101,8 @@
     const buttonpage = document.getElementById('button-page')
     var iter = {{count}}
     if (Number(iter) > 1) {
-        for (var i = 1; i <= Number(iter); i++) {
-            buttonpage.innerHTML += `<a href="/resultpages/${i}/" class="btn btn-primary">${i}</a>`
+        for (var i = 2; i <= Number(iter); i++) {
+            buttonpage.innerHTML += `<a href="/resultpage/${i - 1}/" class="btn btn-success">${i - 1}</a>`
         }
     }
 </script>

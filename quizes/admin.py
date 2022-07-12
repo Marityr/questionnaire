@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.contrib.admin.options import ModelAdmin, TabularInline, StackedInline
 
-from .models import Quiz, BlockQuiz, Question, Answer, ResultAnswers, Result_answers, NewAnsvers
+from .models import Quiz, BlockQuiz, Question, Answer, ResultAnswers, Result_answers, NewAnsvers, CauseModel
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
@@ -54,15 +54,28 @@ class ResultAnswersAdmin(admin.ModelAdmin):
     model = ResultAnswers
 
     display_list = (
-        'userID'
+        'userID',
+        'count',
     )
 
 
-class Result_answersAdmin(admin.ModelAdmin):
-    model = Result_answers
+@admin.register(Result_answers)
+class Result_answersAdmin(ModelAdmin):
 
     display_list = (
-        'uid'
+        'id',
+        'uid',
+        'count',
+    )
+
+    list_filter = (
+        'uid',
+        'count',
+    )
+
+
+    search_fields = (
+        'uid',
     )
 
 @admin.register(NewAnsvers)
@@ -76,9 +89,32 @@ class NewAnswersAdmin(ModelAdmin):
     )
 
     list_filter = (
-        'quiz',
+        # 'quiz',
+        'count',
     )
 
+
+class PostAdminForm(forms.ModelForm):
+    text_body = forms.CharField(required=False, widget=CKEditorUploadingWidget())
+    text_cause = forms.CharField(required=False, widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = CauseModel
+        fields = '__all__'
+
+@admin.register(CauseModel)
+class CauseModelAdmin(admin.ModelAdmin):
+    model = CauseModel
+
+    search_fields = (
+        'name',
+    )
+
+    list_filter = (
+        'name',
+    )
+
+    form = PostAdminForm
 
 
 admin.site.register(Quiz, QuizAdmin)
@@ -87,5 +123,5 @@ admin.site.register(BlockQuiz)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer)
 admin.site.register(ResultAnswers, ResultAnswersAdmin)
-admin.site.register(Result_answers, Result_answersAdmin)
+# admin.site.register(Result_answers, Result_answersAdmin)
 

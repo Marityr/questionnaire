@@ -4,17 +4,27 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from requests import request
+
+from feedback.models import Feedback
 from .forms import LoginForm
 from django.contrib.auth.models import User
 
 from django.views import View
 
 from userdata.models import UserData
-from .models import Quiz, BlockQuiz, Question, ResultAnswers, Result_answers, Answer, NewAnsvers
+from .models import Quiz, BlockQuiz, Question, ResultAnswers, Result_answers, Answer, NewAnsvers, CauseModel
 from userdata.forms import UserDataForm
+from feedback.forms import FeedbackForm
 
 import json
 import base64
+
+
+from matplotlib import colors, pyplot as plt
+import numpy as np
+
+import  subprocess
+import os
 
 
 class HomePage(View):
@@ -82,66 +92,66 @@ class Dashboard(View):
                 userdata.massa = request.POST['massa']
                 userdata.purpose = request.POST['purpose']
                 userdata.decision = request.POST['decision']
-                if request.POST.get('problem'):
-                    userdata.problem = True
-                else:
-                    userdata.problem = False
-                if request.POST.get('problem_two'):
-                    userdata.problem_two = True
-                else:
-                    userdata.problem_two = False
-                if request.POST.get('problem_fre'):
-                    userdata.problem_fre = True
-                else:
-                    userdata.problem_fre = False
-                if request.POST.get('problem_foo'):
-                    userdata.problem_foo = True
-                else:
-                    userdata.problem_foo = False
-                if request.POST.get('problem_fiv'):
-                    userdata.problem_fiv = True
-                else:
-                    userdata.problem_fiv = False
-                if request.POST.get('problem_sex'):
-                    userdata.problem_sex = True
-                else:
-                    userdata.problem_sex = False
-                if request.POST.get('problem_sev'):
-                    userdata.problem_sev = True
-                else:
-                    userdata.problem_sev = False
-                if request.POST.get('problem_noi'):
-                    userdata.problem_noi = True
-                else:
-                    userdata.problem_noi = False
-                if request.POST.get('problem_ech'):
-                    userdata.problem_ech = True
-                else:
-                    userdata.problem_ech = False
-                if request.POST.get('problem_thn'):
-                    userdata.problem_thn = True
-                else:
-                    userdata.problem_thn = False
-                if request.POST.get('problem_elv'):
-                    userdata.problem_elv = True
-                else:
-                    userdata.problem_elv = False
-                if request.POST.get('problem_lav'):
-                    userdata.problem_lav = True
-                else:
-                    userdata.problem_lav = False
-                if request.POST.get('problem_ulw'):
-                    userdata.problem_ulw = True
-                else:
-                    userdata.problem_ulw = False
-                if request.POST.get('problem_flv'):
-                    userdata.problem_flv = True
-                else:
-                    userdata.problem_flv = False
-                if request.POST.get('problem_fvt'):
-                    userdata.problem_fvt = True
-                else:
-                    userdata.problem_fvt = False
+                # if request.POST.get('problem'):
+                #     userdata.problem = True
+                # else:
+                #     userdata.problem = False
+                # if request.POST.get('problem_two'):
+                #     userdata.problem_two = True
+                # else:
+                #     userdata.problem_two = False
+                # if request.POST.get('problem_fre'):
+                #     userdata.problem_fre = True
+                # else:
+                #     userdata.problem_fre = False
+                # if request.POST.get('problem_foo'):
+                #     userdata.problem_foo = True
+                # else:
+                #     userdata.problem_foo = False
+                # if request.POST.get('problem_fiv'):
+                #     userdata.problem_fiv = True
+                # else:
+                #     userdata.problem_fiv = False
+                # if request.POST.get('problem_sex'):
+                #     userdata.problem_sex = True
+                # else:
+                #     userdata.problem_sex = False
+                # if request.POST.get('problem_sev'):
+                #     userdata.problem_sev = True
+                # else:
+                #     userdata.problem_sev = False
+                # if request.POST.get('problem_noi'):
+                #     userdata.problem_noi = True
+                # else:
+                #     userdata.problem_noi = False
+                # if request.POST.get('problem_ech'):
+                #     userdata.problem_ech = True
+                # else:
+                #     userdata.problem_ech = False
+                # if request.POST.get('problem_thn'):
+                #     userdata.problem_thn = True
+                # else:
+                #     userdata.problem_thn = False
+                # if request.POST.get('problem_elv'):
+                #     userdata.problem_elv = True
+                # else:
+                #     userdata.problem_elv = False
+                # if request.POST.get('problem_lav'):
+                #     userdata.problem_lav = True
+                # else:
+                #     userdata.problem_lav = False
+                # if request.POST.get('problem_ulw'):
+                #     userdata.problem_ulw = True
+                # else:
+                #     userdata.problem_ulw = False
+                # if request.POST.get('problem_flv'):
+                #     userdata.problem_flv = True
+                # else:
+                #     userdata.problem_flv = False
+                # if request.POST.get('problem_fvt'):
+                #     userdata.problem_fvt = True
+                # else:
+                #     userdata.problem_fvt = False
                 userdata.save()
             except UserData.DoesNotExist:
                 userdata = UserData()
@@ -151,66 +161,66 @@ class Dashboard(View):
                 userdata.massa = request.POST['massa']
                 userdata.purpose = request.POST['purpose']
                 userdata.decision = request.POST['decision']
-                if request.POST.get('problem'):
-                    userdata.problem = True
-                else:
-                    userdata.problem = False
-                if request.POST.get('problem_two'):
-                    userdata.problem_two = True
-                else:
-                    userdata.problem_two = False
-                if request.POST.get('problem_fre'):
-                    userdata.problem_fre = True
-                else:
-                    userdata.problem_fre = False
-                if request.POST.get('problem_foo'):
-                    userdata.problem_foo = True
-                else:
-                    userdata.problem_foo = False
-                if request.POST.get('problem_fiv'):
-                    userdata.problem_fiv = True
-                else:
-                    userdata.problem_fiv = False
-                if request.POST.get('problem_sex'):
-                    userdata.problem_sex = True
-                else:
-                    userdata.problem_sex = False
-                if request.POST.get('problem_sev'):
-                    userdata.problem_sev = True
-                else:
-                    userdata.problem_sev = False
-                if request.POST.get('problem_noi'):
-                    userdata.problem_noi = True
-                else:
-                    userdata.problem_noi = False
-                if request.POST.get('problem_ech'):
-                    userdata.problem_ech = True
-                else:
-                    userdata.problem_ech = False
-                if request.POST.get('problem_thn'):
-                    userdata.problem_thn = True
-                else:
-                    userdata.problem_thn = False
-                if request.POST.get('problem_elv'):
-                    userdata.problem_elv = True
-                else:
-                    userdata.problem_elv = False
-                if request.POST.get('problem_lav'):
-                    userdata.problem_lav = True
-                else:
-                    userdata.problem_lav = False
-                if request.POST.get('problem_ulw'):
-                    userdata.problem_ulw = True
-                else:
-                    userdata.problem_ulw = False
-                if request.POST.get('problem_flv'):
-                    userdata.problem_flv = True
-                else:
-                    userdata.problem_flv = False
-                if request.POST.get('problem_fvt'):
-                    userdata.problem_fvt = True
-                else:
-                    userdata.problem_fvt = False
+                # if request.POST.get('problem'):
+                #     userdata.problem = True
+                # else:
+                #     userdata.problem = False
+                # if request.POST.get('problem_two'):
+                #     userdata.problem_two = True
+                # else:
+                #     userdata.problem_two = False
+                # if request.POST.get('problem_fre'):
+                #     userdata.problem_fre = True
+                # else:
+                #     userdata.problem_fre = False
+                # if request.POST.get('problem_foo'):
+                #     userdata.problem_foo = True
+                # else:
+                #     userdata.problem_foo = False
+                # if request.POST.get('problem_fiv'):
+                #     userdata.problem_fiv = True
+                # else:
+                #     userdata.problem_fiv = False
+                # if request.POST.get('problem_sex'):
+                #     userdata.problem_sex = True
+                # else:
+                #     userdata.problem_sex = False
+                # if request.POST.get('problem_sev'):
+                #     userdata.problem_sev = True
+                # else:
+                #     userdata.problem_sev = False
+                # if request.POST.get('problem_noi'):
+                #     userdata.problem_noi = True
+                # else:
+                #     userdata.problem_noi = False
+                # if request.POST.get('problem_ech'):
+                #     userdata.problem_ech = True
+                # else:
+                #     userdata.problem_ech = False
+                # if request.POST.get('problem_thn'):
+                #     userdata.problem_thn = True
+                # else:
+                #     userdata.problem_thn = False
+                # if request.POST.get('problem_elv'):
+                #     userdata.problem_elv = True
+                # else:
+                #     userdata.problem_elv = False
+                # if request.POST.get('problem_lav'):
+                #     userdata.problem_lav = True
+                # else:
+                #     userdata.problem_lav = False
+                # if request.POST.get('problem_ulw'):
+                #     userdata.problem_ulw = True
+                # else:
+                #     userdata.problem_ulw = False
+                # if request.POST.get('problem_flv'):
+                #     userdata.problem_flv = True
+                # else:
+                #     userdata.problem_flv = False
+                # if request.POST.get('problem_fvt'):
+                #     userdata.problem_fvt = True
+                # else:
+                #     userdata.problem_fvt = False
                 userdata.save()
 
         user_data = User.objects.get(username=request.user)
@@ -420,13 +430,42 @@ class LastPage(View):
 
     def get(self, request):
         template = 'nwe/lastpage.html'
+        form = FeedbackForm()
 
-        return render(request, template)
+        context = {
+            'form': form,
+        }
+
+        return render(request, template, context)
 
     def post(self, request):
         userdata = UserData.objects.get(username=request.user)
+        user_data = User.objects.get(username=request.user)
 
-        return redirect('quizes:resultpages', int(userdata.count) -1)
+        message = f"{user_data.username}-{user_data.email}"
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')        
+
+        if request.method == 'POST':
+            data = Feedback()
+            data.userID = base64_message
+            data.email = user_data.email
+            form = FeedbackForm(request.POST, instance=data)
+            
+            form.save()
+
+            # data = Feedback()
+            # form = FeedbackForm(request.POST)
+            # data.userID = base64_message
+            # data.email = user_data.email
+            # data.rate = form['rate']
+            # data.like = form['like']
+            # data.dislike = form['dislike']
+            # data.save()
+
+
+        return redirect('quizes:resultpages', int(userdata.count) -2)
 
 
 class ResulrPage(View):
@@ -468,15 +507,50 @@ class ResulrPage(View):
                         tmp2.append(it[0])
                         tmp2.append(it[1])
                         
-                        tmp2.append(it[3])
-                        # print(it[0], it[1], it[2])
+                        for cause_item in it[3]:
+                            tmp3 = []
+                            if cause_item == 'None':
+                                break
+                            try:
+                                cause = CauseModel.objects.get(name=str(cause_item))
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_body)
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_cause)
+                                # print(cause.id)
+                                tmp2.append(tmp3)
+                            except CauseModel.DoesNotExist:
+                                print('none model')
                 if tmp2:
                     tmp.append(tmp2)
             result_all.append(tmp)
+        graf_name = []
+        for item in result_user:
+            graf_name.append(item.questions)
+
+        colors = []    
+        values = []
+        for item in result_user:
+            if item.color == 'hard':
+                colors.append('rgba(238, 38, 78, 1)')
+                values.append(3)
+            if item.color == 'medium':
+                colors.append('rgba(252, 213, 113, 1)')
+                values.append(2)
+            if item.color == 'low':
+                colors.append('rgba(128, 204, 40, 1)')
+                values.append(1)
+            if item.color == 'this':
+                colors.append('rgba(247, 247, 247, 1)')
+                values.append(0)
         context = {
             'resultdata': result,
             'result_all': result_all,
+            'graf_name': graf_name,
+            'colors': colors,
+            'values': values,
         }
+
         return render(request, template, context)
 
 
@@ -525,7 +599,185 @@ class NewResult(View):
 
     def get(self, request, count):
         template = 'nwe/newresult.html'
+
         user_data = User.objects.get(username=request.user)
+        message = f"{user_data.username}-{user_data.email}"
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        result = Result_answers.objects.filter(count=count, uid=base64_message)
+
+        result_user = Result_answers.objects.filter(count=count, uid=base64_message)
+        block = BlockQuiz.objects.all()
+        
+
+        all_result = []
+        for item in result_user:
+            tmp = []
+            tmp.append(item.questions)
+            tmp.append(item.result)
+            tmp.append(item.color)
+            tmp.append(list_cause(item.causes))
+            # print(item.causes)
+            all_result.append(tmp)
+
+        result_all = []
+        for item in block:
+            tmp = []
+            tmp.append(item.title)
+            # print(item.title)
+            quiz = Quiz.objects.filter(title_block=item.id)
+            for obj in quiz:
+                tmp2 = []
+                # print(obj.topic)
+                for it in all_result:
+                    if it[0] == obj.topic:
+                        tmp2.append(it[2])
+                        tmp2.append(it[0])
+                        tmp2.append(it[1])
+                        
+                        for cause_item in it[3]:
+                            tmp3 = []
+                            if cause_item == 'None':
+                                break
+                            try:
+                                # print(cause_item)
+                                cause = CauseModel.objects.get(name=str(cause_item))
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_body)
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_cause)
+                                # print(cause.id)
+                                tmp2.append(tmp3)
+                            except CauseModel.DoesNotExist:
+                                print('none model')
+                if tmp2:
+                    tmp.append(tmp2)
+            result_all.append(tmp)
+
+        graf_name = []
+        gn = 0
+        for item in result_user:
+            gn = gn + 1
+            # graf_name.append(gn)
+            graf_name.append(item.questions)
+
+        colors = []    
+        values = []
+        for item in result_user:
+            if item.color == 'hard':
+                colors.append('rgba(238, 38, 78, 1)')
+                values.append(3)
+            if item.color == 'medium':
+                colors.append('rgba(252, 213, 113, 1)')
+                values.append(2)
+            if item.color == 'low':
+                colors.append('rgba(128, 204, 40, 1)')
+                values.append(1)
+            if item.color == 'this':
+                colors.append('rgba(247, 247, 247, 1)')
+                values.append(0)
+        context = {
+            'resultdata': result,
+            'result_all': result_all,
+            'graf_name': graf_name,
+            'colors': colors,
+            'values': values,
+        }
+
+        # print(result_all)
+
+        return render(request, template, context)
+    
+
+class CountItr(View):
+    """Увелечение количества счетчкика попыток"""
+
+    def get(self, request):
+        data = UserData.objects.get(username=request.user)
+        data.count = int(data.count) + 1
+        print("iter plus")
+        data.save()
+    
+        return JsonResponse({'Count': 'true'})
+
+
+
+class Testpage(View):
+
+    def get(self, request, count):
+        template = "testpage/newresultpage.html"
+
+        user_data = User.objects.get(username=request.user)
+        message = f"{user_data.username}-{user_data.email}"
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        result = Result_answers.objects.filter(count=count, uid=base64_message)
+
+        result_user = Result_answers.objects.filter(count=count, uid=base64_message)
+
+        print(result)
+
+        block = BlockQuiz.objects.all()
+        
+
+        all_result = []
+        for item in result_user:
+            tmp = []
+            tmp.append(item.questions)
+            tmp.append(item.result)
+            tmp.append(item.color)
+            tmp.append(list_cause(item.causes))
+            # print(item.causes)
+            all_result.append(tmp)
+
+        result_all = []
+        for item in block:
+            tmp = []
+            tmp.append(item.title)
+            # print(item.title)
+            quiz = Quiz.objects.filter(title_block=item.id)
+            for obj in quiz:
+                tmp2 = []
+                # print(obj.topic)
+                for it in all_result:
+                    if it[0] == obj.topic:
+                        tmp2.append(it[2])
+                        tmp2.append(it[0])
+                        tmp2.append(it[1])
+                        
+                        for cause_item in it[3]:
+                            tmp3 = []
+                            if cause_item == 'None':
+                                break
+                            try:
+                                cause = CauseModel.objects.get(name=str(cause_item))
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_body)
+                                tmp3.append(cause.text_cause)
+                                print(cause.id)
+                                tmp2.append(tmp3)
+                            except CauseModel.DoesNotExist:
+                                print('none model')
+                if tmp2:
+                    tmp.append(tmp2)
+            result_all.append(tmp)
+        context = {
+            'resultdata': result,
+            'result_all': result_all,
+        }
+
+        return render(request, template, context)
+
+
+
+class DataResult(View):
+
+    def get(self, request, name, count):
+        template = 'nwe/newresult.html'
+
+        user_data = User.objects.get(username=name)
         message = f"{user_data.username}-{user_data.email}"
         message_bytes = message.encode('ascii')
         base64_bytes = base64.b64encode(message_bytes)
@@ -560,23 +812,52 @@ class NewResult(View):
                         tmp2.append(it[0])
                         tmp2.append(it[1])
                         
-                        tmp2.append(it[3])
-                        # print(it[0], it[1], it[2])
+                        for cause_item in it[3]:
+                            tmp3 = []
+                            if cause_item == 'None':
+                                break
+                            try:
+                                cause = CauseModel.objects.get(name=str(cause_item))
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_body)
+                                tmp3.append(cause.name)
+                                tmp3.append(cause.text_cause)
+                                # print(cause.id)
+                                tmp2.append(tmp3)
+                            except CauseModel.DoesNotExist:
+                                print('none model')
                 if tmp2:
                     tmp.append(tmp2)
             result_all.append(tmp)
+        graf_name = []
+        for item in result_user:
+            graf_name.append(item.questions)
+
+        colors = []    
+        values = []
+        for item in result_user:
+            if item.color == 'hard':
+                colors.append('rgba(238, 38, 78, 1)')
+                values.append(3)
+            if item.color == 'medium':
+                colors.append('rgba(252, 213, 113, 1)')
+                values.append(2)
+            if item.color == 'low':
+                colors.append('rgba(128, 204, 40, 1)')
+                values.append(1)
+            if item.color == 'this':
+                colors.append('rgba(247, 247, 247, 1)')
+                values.append(0)
         context = {
             'resultdata': result,
             'result_all': result_all,
+            'graf_name': graf_name,
+            'colors': colors,
+            'values': values,
         }
+
+        # print(base64_message)
+        # print(count)
+        # print(Result_answers.objects.filter(uid='YXJ0ZW0ta3Vob21leGFodWsuYWlAZ21haWwuY29t'))
+
         return render(request, template, context)
-    
-
-class CountItr(View):
-
-    def get(self, request):
-        data = UserData.objects.get(username=request.user)
-        data.count = int(data.count) + 1
-        data.save()
-    
-        return JsonResponse({'Count': 'true'})

@@ -2,93 +2,255 @@
 {% load static %}
 {% block scripts %}
     <script src="{% static 'webpage/quiz.js' %}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
 {% endblock scripts %}
 {% block title %}
     Опрос
 {% endblock title %}
 {% block content %}
     <style>
-        form {
-            display: none;
-        }
+    form {
+        display: none;
+    }
+    #result-block {
+        padding: 0px;
+    }
+    .card button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin: 0;
+        text-decoration: none;
+        color: #000;
+        border-radius: 0;
+        border: 0;
+    }
+    .card-header {
+        padding: 0;
+        border-radius: 0!import;
+    }
+    .card {
+        border-radius: 0px;
+    }
+    .nobp p {
+        background: none;
+    }
+    #progbar {
+        display: none;
+    }
+    .this button {
+        color: #000;
+    }
+    .medium button {
+        color: #000;
+    }
     </style>
     <div class="block-main">
         <div class="home-button">
-            <a href="/"><button>HOME</button></a>
-            <button>ID - <span>{{uid}}-</span></button>
+            <a href="/">
+                <button>HOME</button>
+            </a>
+            <button>
+                ID - <span>{{ uid }}-</span>
+            </button>
         </div>
-        <div id="header-block">
-        </div>
+        <div id="header-block"></div>
         <div id="body-block" style="overflow-y: auto;height: 100%;">
-            <h2 style="position: sticky;top: 0;background: #fff;padding-bottom: 5px;">Possible causes of your health problems</h2>
-            <div id="result-block">
-                <div class="col-12">
-                    <div class="row resblock">
-                        <div class="col-4 col-sm-5 col-md-4">
-                            
-                        </div>
-                        <div class="col-6 col-sm-6 col-md-7 text-center">
-                            Causes
-                        </div>
-                    </div>
+            <h2 style="position: sticky;top: 0;padding-bottom: 5px;">Your report</h2>
+            <div class="row">
+                <div class="col-lg-6 nobp">
+                    <p>
+                        We use different colours to prioritise the possible causes of your health problems.
+                        <br>
+                        <br>
+                        Green blocks mean the results are within the normal range, most likely there is no any problem.
+                        <br>
+                        Yellow blocks mean you have to pay attention to these parts of your health.
+                        <br>
+                        Red blocks mean detected diseases are most likely to be the primary causes of your health problems, needed to be treated firstly to prevent future aggravation of symptoms.
+                    </p>
                 </div>
-                {% for item in result_all %}
-                    {% for data in item %}
-                        {% if forloop.counter != 1 %}
-                            {% for quiz in data %}
-                                {% if forloop.counter == 1 %}
-                                    <div class="col-12">
-                                        <div class="row resblock {{quiz}}">
-                                {% endif %}
-                                {% if forloop.counter == 2 %}
-                                            <div class="col-4 col-sm-5 col-md-4">
-                                                {{quiz}}     
-                                            </div>
-                                {% endif %}
-                                {% if forloop.counter == 4 %}
-                                            <div class="col-8 col-sm-7 col-md-8">
-                                                {% for cuases in quiz %}
-                                                    {{cuases}},
-                                                {% endfor %}   
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-                
-
-                <div class="col-12&quot;">
-                    <div class="row resblock">
-                        <div class="col-12&quot;">
-                            <br><br>
-                            <p>We have uncovered the possible root causes of the health problems. You can receive a health protocol with personalised roadmaps (options of the next steps) to your healthier future.</p>
-                            <p> A health protocol will include extensive health assessment report and personalized recommendations on:<br> 1.Nutrition <br>2.Mind<br> 3.Movement<br> 4.Sleep</p>
-                            <br><br>
-                            <a href="/final/" class="btn btn-lg w-100 btn-danger">Get a personalised health protocol for $150/year</a>
-                            <br><br>
-                        </div>
-                    </div>
+                <div class="col-lg-6 nobp">
+                    <p class="text-center">
+                        <canvas id="birdsChart" width="100%"></canvas>
+                    </p>
                 </div>
             </div>
-        </div>
-        <div id="button-block"></div>
-        <div class="footer-block"></div>
-    </div>
+            <div id="result-block">
+                <div class="col-12">
+                    <div id="accordion">
+                        {% for item in result_all %}
+                            {% for data in item %}
+                                {% with itemcount=forloop.counter %}
+                                    {% if forloop.counter != 1 %}
+                                        {% with counterid=forloop.counter %}
+                                            <div id="data-{{ forloop.counter }}">
+                                                <div class="card">
+                                                    {% if forloop.counter != 1 %}
+                                                        {% for quiz in data %}
+                                                            {% if forloop.counter == 1 %}<div class="card-header {{ quiz }}"
+                                                            {% endif %}
+                                                            {% if forloop.counter == 2 %}
+                                                            id="dblock{{ counterid }}">
+                                                            <h5 class="mb-0">
+                                                                <button class="btn btn-link"
+                                                                        data-toggle="collapse"
+                                                                        data-target="#collapse{{ counterid }}"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapse{{ counterid }}">
+                                                                    <span class="countid">{{ itemcount|add:"-1" }}</span> <span>{{ quiz }}</span><span></span>
+                                                                </button>
+                                                            </h5>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if forloop.counter > 3 %}
+                                                        <div id="collapse{{ counterid }}"
+                                                             class="collapse"
+                                                             aria-labelledby="dblock{{ counterid }}"
+                                                             data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <div class="row cbtt">
+                                                                    {% for cuases in quiz %}
+                                                                        {% with causesid=forloop.counter %}
+                                                                            {% if cuases|length > 1 %}
+                                                                                {% if forloop.counter == 1 %}
+                                                                                    <div class="col-md-6 col-lg-6">
+                                                                                        <div class="block-cuase">
+                                                                                            <b class="title-causes">{{ cuases }}</b>
+                                                                                            <br>
+                                                                                            <br>
+                                                                                        {% endif %}
+                                                                                        {% if forloop.counter == 2 %}
+                                                                                            {{ cuases|safe }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                                {% if forloop.counter == 3 %}
+                                                                                    <div class="col-md-6 col-lg-6">
+                                                                                        <div class="block-cuase">
+                                                                                            <b class="title-causes">Possible causes of  {{ cuases }}</b>
+                                                                                            <br>
+                                                                                            <br>
+                                                                                        {% endif %}
+                                                                                        {% if forloop.counter == 4 %}
+                                                                                            {{ cuases|safe }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endwith %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endwith %}
+                            {% endif %}
+                        {% endwith %}
+                        <script>
+                            if($('#data-{{forloop.counter}} > .card > div:first-child').hasClass('hard')){
+                                $('#data-{{forloop.counter}} .card-body > div> div  div').addClass('hard_bl')
+                            }
+                            if($('#data-{{forloop.counter}} > .card > div:first-child').hasClass('medium')){
+                                $('#data-{{forloop.counter}} .card-body > div> div  div').addClass('medium_bl')
+                            }
+                            if($('#data-{{forloop.counter}} > .card > div:first-child').hasClass('low')){
+                                $('#data-{{forloop.counter}} .card-body > div> div  div').addClass('low_bl')
+                            }
+                            if($('#data-{{forloop.counter}} > .card > div:first-child').hasClass('this')){
+                                $('#data-{{forloop.counter}} .card-body > div> div  div').addClass('this_bl')
+                            }
 
-    <script>
-        $.ajax({
-            type: 'GET',
-            url: `/counter/`,
-            success: function (response) {
-                console.log(response)
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    </script>
+                            var ddrt = $('#data-{{forloop.counter}} > .card > div').length
+                            console.log('#data-{{forloop.counter}} - ' + ddrt)
+                            if(ddrt <= 1){
+                                $('#data-{{forloop.counter}} button > span:last-child').attr('style', 'display:none!important;')
+                            }
+                        </script>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <div class="col-12">
+                
+                <center>
+                    <a href="https://welly.digital/pricing" class="btn btn-lg btn-success">
+                        Get a treatment protocol
+                    </a>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="button-block"></div>
+<div class="footer-block"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    $('.btn-link').click(function(){
+        var p = $(this);
+        if (p.hasClass("btn-linkmn")) {
+            p.removeClass('btn-linkmn')
+        }else {
+            $('.btn-link').removeClass('btn-linkmn')
+            $(this).addClass('btn-linkmn')
+        }
+        
+    })
+
+</script>
+<script>
+var birdsCanvas = document.getElementById("birdsChart");
+
+var birdsData = {
+  labels: [
+    {% for item in graf_name %}    "{{item|safe|slice:":15"}}...",{% endfor %}
+  ],
+  datasets: [{
+    data: [
+        {% for item in values %}        {{item}},{% endfor %}
+    ],
+    backgroundColor: [
+        {% for item in colors %}        "{{item}}",{% endfor %}
+    ],
+    borderColor: "rgba(0, 0, 0, 0.8)",
+  }],
+};
+
+var polarAreaChart = new Chart(birdsCanvas, {
+  type: 'polarArea',
+  data: birdsData,
+  options: {
+    plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+            display: true,
+            text: 'Heath Diagram',
+        }
+      },
+    scales: {
+      r: {
+        ticks: {
+          color: 'transparent',
+          stepSize: 1
+          
+        }
+      }
+    }
+  },
+});
+</script>
+
+
+
 
 {% endblock content %}
