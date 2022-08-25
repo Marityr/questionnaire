@@ -10,6 +10,11 @@
 {% endblock title %}
 
 {% block content %}
+<style>
+    div img {
+        max-width: 100%;
+    }
+</style>
     <div class="block-main">
         <div id="header-block">
             <h1>Welly Digital Screening</h1>
@@ -22,7 +27,13 @@
                     <li>Do not use in emergencies. In case of health emergency, call your local emergency number immediately.</li>
                     <li>Your data is safe. Information that you provide is anonymous and not shared with anyone.</li>
                 </ul>
-                
+                <p style="background: none;">
+                    There is the example of Welly check-up’ results
+                    <div class="row">
+                        <div class="col-lg-6"><img src="{% static 'img/ind1.png'%}" alt=""></div>
+                        <div class="col-lg-6"><img src="{% static 'img/ind2.png'%}" alt=""></div>
+                    </div>
+                </p>
                 <p style="background: none;">
                     By clicking <b class="btn btn-success" style="padding:0px 5px;">Next</b>, you agree to the <a href="{% static 'uploads/TermsofService.pdf'%}" target="blank">Terms</a> of Service and agree to the processing of health data.
                 </p>

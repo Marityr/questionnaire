@@ -304,7 +304,8 @@ def save_quiz(request, uid):
                 # print(data['result_block'], colors.low)
                 color = 'low'
             else:
-                color = 'this'
+                color = 'low'
+                # color = 'this'
             addanswer.uid = uid
             addanswer.questions = data['name_block']
             addanswer.color = color
